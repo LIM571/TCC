@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-yellow-400">
+    <div class="container mx-auto p-8 text-center">
+        <br>
+
+        <form action="/cadastro" method="POST" enctype="multipart/form-data" class="max-w-md mx-auto bg-gray-700 p-6 rounded-lg shadow-md">
+            <a href="/" class="text-white text-left mr-72"><--Voltar</a>
+            <br>
+
+            <div class="mb-4 relative text-center">
+                <label for="imagem" class="block text-white font-bold mb-2">Imagem:</label>
+                <input type="file" name="imagem" id="imagem" class="hidden">
+                <label for="imagem" class="absolute inset-0 flex items-center justify-center bg-blue-500 text-white w-24 h-24 rounded-full cursor-pointer hover:bg-blue-600 transition duration-300 mx-auto my-auto">
+                    Escolher Imagem
+                </label>
+            </div>
+            
+            
+            
+            <br>
+            
+            <div class="mb-4">
+                <label for="nome" class="block text-white font-bold mb-2">Nome:</label>
+                <input type="text" name="nome" id="nome" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-white font-bold mb-2">Email:</label>
+                <input type="email" name="email" id="email" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="senha" class="block text-white font-bold mb-2">Senha:</label>
+                <input type="password" name="senha" id="senha" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="nome_lutador" class="block text-white font-bold mb-2">Nome do Lutador:</label>
+                <input type="text" name="nome_lutador" id="nome_lutador" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="lvl_profissional" class="block text-white font-bold mb-2">Nível Profissional:</label>
+                <input type="text" name="lvl_profissional" id="lvl_profissional" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="categoria" class="block text-white font-bold mb-2">Categoria:</label>
+                <input type="number" name="categoria" id="categoria" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
+            </div>
+            <input type="submit" name="enviar" id="enviar" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
+        
+            <div class="mb4">
+
+            </div>
+            
+</body>
+
+</html>

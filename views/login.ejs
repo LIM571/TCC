@@ -1,0 +1,54 @@
+<!-- login.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .circle {
+            position: relative;
+            overflow: hidden;
+            background-image:url(/public/img/logo.png);
+        }
+
+        .circle::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            background-image:url(/public/img/logo.png);
+            border: 2px solid #000;
+            border-radius: 50%;
+            z-index: 10;
+            background-image:url(/public/img/logo.png);
+
+        }
+
+        .bg-circle {
+            position: relative;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen p-8 bg-gray-800">
+    <div class="bg-yellow-400 p-8 rounded-lg shadow-lg w-80 h-96 flex flex-col items-center">
+        <h2 class="text-xl font-semibold mb-4">Login</h2>
+        <form action="/login" method="POST" class="w-full">
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700" placeholder="Seu email" required>Email:</label>
+                <input type="email" id="email" name="email" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-black" required>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700" placeholder="Sua senha" required>Password:</label>
+                <input type="password" id="senha" name="senha" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-black" required>
+            </div>
+            <button type="submit" class="w-full bg-black text-white py-2 rounded-md text-sm hover:bg-gray-800 transition duration-300">Entrar</button>
+        </form>
+    </div>
+</body>
+</html>
