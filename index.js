@@ -4,14 +4,37 @@ const session = require('express-session');
 const port = 3000;
 const database = require('./db');
 const passport = require('passport');
+const Evento = require('./model/evento');
 
-// routes
+app.use(session({
+    secret: 'secreto',
+    resave: false,
+    saveUninitialized: false
+}));
+
+require('./auth')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+function authenticationMiddleware(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.locals.imagem = req.session.passport.user.imagem;
+        res.locals.logado = true;
+        return next();
+    }
+    res.redirect('/login?erro=1');
+}
+
+// Middleware para servir arquivos estáticos
+app.use(express.static('public'));
+
+// Routes
 const CadastroEventoRouter = require('./routes/cadastroEvento');
-app.use('/cadastroEvento', CadastroEventoRouter);
+app.use('/cadastroEvento', authenticationMiddleware, CadastroEventoRouter);
 const CadastroRouter = require('./routes/cadastro');
 app.use('/cadastro', CadastroRouter);
 const CadastroPostRouter = require('./routes/cadastroPostagen');
-app.use('/cadastroPostagen', CadastroPostRouter);
+app.use('/cadastroPostagen', authenticationMiddleware, CadastroPostRouter);
 
 // Configurar o motor de visualização EJS
 app.set('view engine', 'ejs');
@@ -20,24 +43,15 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Use o express-session antes de qualquer configuração do Passport
-app.use(session({
-    secret: 'secreto', // Chave secreta para assinar a sessão, você pode alterar isso
-    resave: false,
-    saveUninitialized: false
-}));
-
-// Configure o Passport
-require('./auth')(passport);
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Defina a rota para a página inicial
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/', async (req, res) => {
+    try {
+        const eventos = await Evento.findAll();
+        res.render('home', { eventos });
+    } catch (error) {
+        console.error('Erro ao buscar eventos:', error);
+        res.status(500).send('Erro ao buscar eventos');
+    }
 });
-
-
 
 // Importe e use as rotas de login
 const loginRouter = require('./routes/login');

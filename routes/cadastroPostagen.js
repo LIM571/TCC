@@ -4,7 +4,7 @@ const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const Postagem = require('../model/postagens'); // Certifique-se de que o caminho está correto
+const Postagem = require('../model/postagens'); 
 
 // Rota GET para /cadastroPostagen
 router.get('/', function (req, res) {
@@ -20,7 +20,7 @@ router.post('/', function (req, res) {
             console.error(err);
             return res.redirect('/cadastroPostagen');
         }
-
+        const usuario_id = req.user.id;
         const descricao = fields['descricao'][0];
         const nomeimg = crypto.createHash('md5').update(Date.now().toString()).digest('hex') + path.extname(files.midia[0].originalFilename);
         const newpath = path.join(__dirname, "../public/imagens/", nomeimg);
@@ -34,7 +34,8 @@ router.post('/', function (req, res) {
             try {
                 await Postagem.create({
                     descricao: descricao,
-                    midia: nomeimg
+                    midia: nomeimg,
+                    usuario_id: usuario_id
                 });
 
                 console.log("Número de registros inseridos: 1");

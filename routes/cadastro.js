@@ -25,7 +25,7 @@ router.post("/", async function (req, res) {
                 console.error(err);
                 return res.redirect("/cadastro");
             }
-
+console.log(fields)
             const senha = fields["senha"][0];
 
             if (

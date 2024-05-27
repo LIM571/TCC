@@ -4,60 +4,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.7/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .circle {
+            position: absolute;
+            top: -1%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            z-index: 10;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .container {
+            position: relative;
+        }
+    </style>
 </head>
 
-<body class="bg-yellow-400">
-    <div class="container mx-auto p-8 text-center">
-        <br>
+<body class="flex justify-center items-center h-screen p-8 bg-gray-800">
+    <div class="container bg-yellow-400 p-8 rounded-lg shadow-lg w-80 h-120 flex flex-col items-center">
+        <!-- Primeira parte do formulário -->
+        <div id="step1">
+            <div class="circle">
+                <img id="step1Image" src="/img/lg.png" alt="Imagem do lutador">
+            </div>
+            <form id="form1" action="cadastro" enctype="multipart/form-data" method="POST" class="w-full">
+                <div class="mb-4 mt-8">
+                    <label for="nome" class="block text-gray-700" required>Nome:</label>
+                    <input type="text" id="nome" name="nome" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-black" required>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700" required>Email:</label>
+                    <input type="email" id="email" name="email" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-black" required>
+                </div>
+                <div class="mb-4">
+                    <label for="senha" class="block text-gray-700" required>Senha:</label>
+                    <input type="password" id="senha" name="senha" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-black" required>
+                </div>
+                <button type="button" onclick="nextStep()" class="w-full bg-black text-white py-2 rounded-md text-sm hover:bg-gray-800 transition duration-300">Próximo</button>
+        </div>
 
-        <form action="/cadastro" method="POST" enctype="multipart/form-data" class="max-w-md mx-auto bg-gray-700 p-6 rounded-lg shadow-md">
-            <a href="/" class="text-white text-left mr-72"><--Voltar</a>
-            <br>
+        <!-- Segunda parte do formulário (inicialmente oculta) -->
+        <div id="step2" class="hidden">
+                <div class="circle" onclick="document.getElementById('uploadImage').click()">
+                    <img id="previewImage" src="/img/logo_inserir.png" alt="Imagem do lutador">
+                    <input name="imagem" type="file" id="uploadImage" accept="image/*" style="display: none" onchange="previewFile()">
+                </div>
+                <div class="mb-4 mt-10">
+                    <label for="nome_lutador" class="block text-gray-700" required>Nome do Lutador:</label>
+                    <input type="text" id="nome_lutador" name="nome_lutador" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-black" required>
+                </div>
+                <div class="mb-4">
+                    <label for="divisao" class="block text-gray-700" required>Divisão:</label>
+                    <input type="text" id="divisao" name="lvl_profissional" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-black" required>
+                </div>
+                <div class="mb-4">
+                    <label for="categoria" class="block text-gray-700" required>Categoria:</label>
+                    <input type="text" id="categoria" name="categoria" class="w-full px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:border-black" required>
+                </div>
+                <button type="submit" class="w-full bg-black text-white py-2 rounded-md text-sm hover:bg-gray-800 transition duration-300">Cadastrar</button>
+                <div class="flex justify-center">
+                    <button type="button" onclick="backToStep1()" class="rounded-md bg-black w-40 mt-4 font-bold text-white">Página Anterior</button>
+                </div>
+            </form>
+        </div>
+        <a href="login" class="mt-6 text-blue-700 font-bold">Voltar para Login</a>
 
-            <div class="mb-4 relative text-center">
-                <label for="imagem" class="block text-white font-bold mb-2">Imagem:</label>
-                <input type="file" name="imagem" id="imagem" class="hidden">
-                <label for="imagem" class="absolute inset-0 flex items-center justify-center bg-blue-500 text-white w-24 h-24 rounded-full cursor-pointer hover:bg-blue-600 transition duration-300 mx-auto my-auto">
-                    Escolher Imagem
-                </label>
-            </div>
-            
-            
-            
-            <br>
-            
-            <div class="mb-4">
-                <label for="nome" class="block text-white font-bold mb-2">Nome:</label>
-                <input type="text" name="nome" id="nome" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block text-white font-bold mb-2">Email:</label>
-                <input type="email" name="email" id="email" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="senha" class="block text-white font-bold mb-2">Senha:</label>
-                <input type="password" name="senha" id="senha" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="nome_lutador" class="block text-white font-bold mb-2">Nome do Lutador:</label>
-                <input type="text" name="nome_lutador" id="nome_lutador" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="lvl_profissional" class="block text-white font-bold mb-2">Nível Profissional:</label>
-                <input type="text" name="lvl_profissional" id="lvl_profissional" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="categoria" class="block text-white font-bold mb-2">Categoria:</label>
-                <input type="number" name="categoria" id="categoria" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-            </div>
-            <input type="submit" name="enviar" id="enviar" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-        
-            <div class="mb4">
+    </div>
 
-            </div>
-            
+
+    <script>
+        let uploadedImage = null;
+
+        function previewFile() {
+            const preview = document.getElementById('previewImage');
+            const file = document.getElementById('uploadImage').files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = function() {
+                preview.src = reader.result;
+                uploadedImage = reader.result; // Armazena a imagem carregada
+                document.getElementById('step1Image').src = reader.result; // Atualiza a imagem na primeira parte
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "/img/logo_inserir.png"; // Define a imagem padrão caso nenhuma imagem seja selecionada
+            }
+        }
+
+        function nextStep() {
+            //if (document.getElementById('form1').checkValidity()) {
+                if (uploadedImage) {
+                    document.getElementById('previewImage').src = uploadedImage;
+                } else {
+                    document.getElementById('previewImage').src = '/img/logo_inserir.png';
+                }
+
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+          //  } else {
+          //      alert("Por favor, preencha corretamente todas as informações antes de prosseguir.");
+         //   }
+        }
+
+        function backToStep1() {
+           // document.getElementById('form2').reset();
+
+            if (uploadedImage) {
+                document.getElementById('step1Image').src = uploadedImage;
+            } else {
+                document.getElementById('step1Image').src = '/img/lg.png';
+            }
+
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step1').classList.remove('hidden');
+        }
+    </script>
 </body>
 
 </html>

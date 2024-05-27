@@ -1,55 +1,38 @@
-const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
-const Usuario = require('./model/Usuario');
+const bcrypt = require('bcrypt');
+const Usuario = require('./model/Usuario'); // Certifique-se de que o caminho está correto
 
-module.exports = function (passport) {
-    async function findUser(email) {
-      let dadosBanco = await Usuario.findAll({
-        raw: true,
-        where: {
-          email: email,
-        },
-      });
-      if (dadosBanco.length > 0) return dadosBanco[0];
-      else return null;
-    }
-  
-    passport.serializeUser((user, done) => {
+async function findUser(email) {
+    return await Usuario.findOne({ where: { email: email } });
+}
 
-      done(null, { nome: user.nome, id: user.id , imagem: user.imagem});
-    });
-  
-    passport.deserializeUser(async (id, done) => {
-      try {
-        let user = await Usuario.findAll({
-          where: {
-            id: id
-          }
-        })
-        done(null, user);
-      } catch (err) {
-        done(err, null);
-      }
-    });
-  
+module.exports = function(passport) {
     passport.use(
-      new LocalStrategy(
-        { usernameField: "email", passwordField: "senha" },
-        async (email, senha, done) => {
-          try {
-            const user = await findUser(email);
-            // usuário inexistente
-            if (!user) {
-              return done(null, false);
+        new LocalStrategy(
+            { usernameField: "email", passwordField: "senha" },
+            async (email, senha, done) => {
+                try {
+                    const user = await findUser(email);
+                    if (!user) {
+                        return done(null, false, { message: 'Usuário não encontrado' });
+                    }
+                    const isValid = bcrypt.compareSync(senha, user.senha);
+                    if (!isValid) return done(null, false, { message: 'Senha incorreta' });
+                    return done(null, user);
+                } catch (err) {
+                    return done(err);
+                }
             }
-            // comparando as senhas
-            const isValid = bcrypt.compareSync(senha, user.senha);
-            if (!isValid) return done(null, false);
-            return done(null, user);
-          } catch (err) {
-            done(err, false);
-          }
-        }
-      )
+        )
     );
+
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
+    });
+
+    passport.deserializeUser((id, done) => {
+        Usuario.findByPk(id)
+            .then(user => done(null, user))
+            .catch(err => done(err));
+    });
 };
