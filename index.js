@@ -5,6 +5,7 @@ const port = 3000;
 const database = require('./db');
 const passport = require('passport');
 const Evento = require('./model/evento');
+const Topico = require('./model/topico')
 
 app.use(session({
     secret: 'secreto',
