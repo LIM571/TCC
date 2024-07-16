@@ -2,10 +2,10 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const port = 3000;
-const database = require('./db');
+const path = require('path');
 const passport = require('passport');
 const Evento = require('./model/evento');
-const Topico = require('./model/topico')
+const Postagem = require('./model/postagens'); // Certifique-se de que o caminho está correto
 
 app.use(session({
     secret: 'secreto',
@@ -26,27 +26,17 @@ function authenticationMiddleware(req, res, next) {
     res.redirect('/login?erro=1');
 }
 
-// Middleware para servir arquivos estáticos
 app.use(express.static('public'));
-
-// Routes
-const CadastroEventoRouter = require('./routes/cadastroEvento');
-app.use('/cadastroEvento', authenticationMiddleware, CadastroEventoRouter);
-const CadastroRouter = require('./routes/cadastro');
-app.use('/cadastro', CadastroRouter);
-const CadastroPostRouter = require('./routes/cadastroPostagen');
-app.use('/cadastroPostagen', authenticationMiddleware, CadastroPostRouter);
-
-// Configurar o motor de visualização EJS
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// Middleware para parsear o corpo das requisições
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get('/', async (req, res) => {
     try {
         const eventos = await Evento.findAll();
+        console.log('Eventos buscados:', eventos); // Log para depuração
         res.render('home', { eventos });
     } catch (error) {
         console.error('Erro ao buscar eventos:', error);
@@ -54,11 +44,32 @@ app.get('/', async (req, res) => {
     }
 });
 
-// Importe e use as rotas de login
+app.get('/forum', async (req, res) => {
+    try {
+        const postagens = await Postagem.findAll();
+        console.log('Postagens buscadas:', postagens); // Log para depuração
+        res.render('forum', { postagens });
+    } catch (error) {
+        console.error('Erro ao buscar postagens:', error);
+        res.status(500).send('Erro ao buscar postagens');
+    }
+});
+
+const Forum = require('./routes/forum');
+app.use('/forum', authenticationMiddleware, Forum);
+
+const CadastroRouter = require('./routes/cadastro');
+app.use('/cadastro', CadastroRouter);
+
+const cadastroEventos = require('./routes/cadastroEvento');
+app.use('/cadastroEvento', cadastroEventos);
+
+const CadastroPostRouter = require('./routes/cadastroPostagen');
+app.use('/cadastroPostagen', authenticationMiddleware, CadastroPostRouter);
+
 const loginRouter = require('./routes/login');
 app.use('/login', loginRouter);
 
-// Inicie o servidor e conecte ao banco de dados
 (async () => {
     try {
         await database.sync();

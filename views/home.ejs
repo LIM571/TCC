@@ -7,39 +7,9 @@
     <title>Home</title>
 </head>
 <body class="bg-yellow-400">
-    <div >
-        <a href="cadastro" >Cadastro</a>
-        <a href="login" >Login</a>
-        <a href="cadastroPostagen">Post</a>
-        <a href="cadastroEvento"  >Evento</a>
-    </div>
-    <div class="container mx-auto p-8">
-        <!-- Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-            <% for (let i = 0; i < eventos.length; i++) { %>
-                <div class="bg-white rounded shadow mx-2 my-4 w-64">
-                    <div class="p-4 text-sm relative">
-                        <h1 class="text-base font-bold"><%= eventos[i].nome_evento %></h1>
-                        <img class="w-64 h-40 object-cover" src="/imagens/<%= eventos[i].midia %>" alt="Imagem do evento <%= eventos[i].nome_evento %>">
-                        <div class="overflow-hidden max-h-24">
-                            <p class="truncate"><%= eventos[i].descricao_evento %></p>
-                        </div>
-                        <div class="absolute bottom-4 right-4">
-                            <span class="text-lg font-bold text-gray-700">R$ <%= eventos[i].ingresso %></span>
-                        </div>
-                        <div class="w-16 grid grid-flow-col mt-4">
-                            <a href="<%= eventos[i].insta %>">
-                                <img src="https://static.vecteezy.com/system/resources/previews/018/930/473/non_2x/instagram-logo-instagram-icon-transparent-free-png.png" alt="Instagram">
-                            </a>
-                            <a href="<%= eventos[i].local %>">
-                                <img src="https://cdn.icon-icons.com/icons2/2622/PNG/512/brand_google_maps_icon_157937.png" alt="Google Maps">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            <% } %>
-        </div>
-    </div>
+    <%- include(`navbar`)%>
+    <%- include(`postEventos`)%>
+
 
     
     
