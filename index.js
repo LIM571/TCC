@@ -5,7 +5,9 @@ const port = 3000;
 const path = require('path');
 const passport = require('passport');
 const Evento = require('./model/evento');
-const Postagem = require('./model/postagens'); // Certifique-se de que o caminho está correto
+const Postagem = require('./model/postagens'); 
+const Usr = require('./model/Usuario')
+const database = require('./db')
 
 app.use(session({
     secret: 'secreto',
@@ -44,16 +46,9 @@ app.get('/', async (req, res) => {
     }
 });
 
-app.get('/forum', async (req, res) => {
-    try {
-        const postagens = await Postagem.findAll();
-        console.log('Postagens buscadas:', postagens); // Log para depuração
-        res.render('forum', { postagens });
-    } catch (error) {
-        console.error('Erro ao buscar postagens:', error);
-        res.status(500).send('Erro ao buscar postagens');
-    }
-});
+
+
+
 
 const Forum = require('./routes/forum');
 app.use('/forum', authenticationMiddleware, Forum);

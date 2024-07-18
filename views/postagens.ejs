@@ -1,3 +1,21 @@
-<% for (let i = 0; i < postagens.length; i++) { %>
-    <img src="<%= postagens[i].midia %>" alt="">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<% for (let i = 0; i < usuario.length; i++) { %>
+<div class="flex items-center p-4">
+    <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= usuario[i].img %>" alt="User Avatar">
+    <h2 class="text-xl font-bold"><%= usuario[i].nome %></h2>
+</div>
+
+<% for (let j = 0; j < postagens.length; j++) { %>
+<% if (postagens[j].usuario_id == usuario[i].id) { %>
+<div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">
+    <img class="w-full" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
+    <div class="p-4">
+      <p class="text-gray-700 text-base">
+        <%= postagens[j].descricao %>
+      </p>
+    </div>
+</div>
+<% } %>
+<% } %>
 <% } %>
