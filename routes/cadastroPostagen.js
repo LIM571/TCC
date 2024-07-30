@@ -42,7 +42,7 @@ router.post('/', function (req, res) {
                 res.redirect('/');
             } catch (err) {
                 console.error(err);
-                res.redirect('/cadastroPostagen');
+                res.redirect('/forum');
             }
         });
     });
