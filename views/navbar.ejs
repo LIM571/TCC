@@ -1,10 +1,52 @@
-<div >
-    <a href="cadastro" >Cadastro</a>
-    <a href="login" >Login</a>
-    <a href="cadastroPostagen">Postar</a>
-    <a href="cadastroEvento"  >CadastroEvento</a>
-    <a href="forum">Forum</a>
-
-</div>
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar Example</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .navbar-bg {
+      background-color: #333333;
+    }
+    .logo-default {
+      display: block;
+    }
+    .logo-hover {
+      display: none;
+    }
+    .logo-container:hover .logo-default {
+      display: none;
+    }
+    .logo-container:hover .logo-hover {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar-bg text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="logo-container">
+          <a href="/home">
+              <img src="/img/logo.png" alt="Logo" class="w-18 h-10 mr-3 logo-default">
+              <img src="/img/lg.png" alt="Logo" class="w-18 h-10 mr-3 logo-hover">
+          </a>
+      </div>
+      
+        <span class="text-lg font-bold hover:text-yellow-500"><a href="/home">RamMuay</a></span>
+      </div>
+      <div class="flex space-x-4">
+        <% if (locals.logado) { %>
+          <a href="forum" class="hover:text-yellow-500">Fórum</a>
+          <a href="cadastroEvento" class="hover:text-yellow-500">Cadastro Evento</a>
+          <a href="logout" class="hover:text-yellow-500">Logout</a>
+        <% } else { %>
+          <a href="cadastro" class="hover:text-yellow-500">Cadastro</a>
+          <a href="login" class="hover:text-yellow-500">Login</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>

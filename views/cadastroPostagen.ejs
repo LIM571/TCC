@@ -5,25 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Postagens</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .custom-input {
+            border-radius: 9999px; /* Fully rounded */
+            border: 2px solid #000000; /* Black border */
+            padding: 0.5rem; /* Adjust padding as needed */
+        }
+        .custom-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+            border: 2px solid #000000; /* Black border */
+            border-radius: 9999px; /* Fully rounded */
+        }
+    </style>
 </head>
 <body class="bg-yellow-400">
     <div class="container mx-auto p-8 text-center">
-        <br>
-        <form action="/cadastroPostagen" method="POST" enctype="multipart/form-data" class="max-w-md mx-auto bg-gray-700 p-6 rounded-lg shadow-md">
-            <a href="/" class="text-white text-left mr-72"><--Voltar</a>
-            <br>
-           
-            <div class="mb-4">
-                <label for="descricao" class="block text-white font-bold mb-2">Descrição:</label>
-                <input type="textarea" name="descricao" id="descricao" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-            </div>
-            <div class="mb-4">
-                <label for="midia" class="block text-white font-bold mb-2">Mídia:</label>
-                <input type="file" name="midia" id="midia" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-            </div>
-            <input type="submit" name="enviar" id="enviar" class="px-3 py-2 rounded-md border focus:outline-none focus:border-blue-500">
-        </form>
-        <div class="mb4"></div>
+        <div class="bg-white rounded-lg shadow-md p-6 inline-block">
+            <h2 class="text-black font-bold mb-4">Fazer postagem</h2>
+            <form action="/cadastroPostagen" method="POST" enctype="multipart/form-data" class="flex items-center space-x-2">
+                <input type="text" name="descricao" id="descricao" class="custom-input flex-grow" placeholder="Escreva aqui...">
+                <label for="midia" class="custom-button cursor-pointer">
+                    <!-- SVG for upload icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    </svg>
+                    <input type="file" name="midia" id="midia" class="hidden">
+                </label>
+                <button type="submit" name="enviar" id="enviar" class="custom-button">
+                    <!-- SVG for send icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                    </svg>
+                </button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
