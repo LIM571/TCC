@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navbar Example</title>
+  <title>Navbar</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     .navbar-bg {
@@ -29,18 +29,42 @@
       <div class="flex items-center">
         <div class="logo-container">
           <a href="/home">
-              <img src="/img/logo.png" alt="Logo" class="w-18 h-10 mr-3 logo-default">
-              <img src="/img/lg.png" alt="Logo" class="w-18 h-10 mr-3 logo-hover">
+            <img src="/img/logo.png" alt="Logo" class="w-18 h-10 mr-3 logo-default">
+            <img src="/img/lg.png" alt="Logo" class="w-18 h-10 mr-3 logo-hover">
           </a>
-      </div>
-      
+        </div>
         <span class="text-lg font-bold hover:text-yellow-500"><a href="/home">RamMuay</a></span>
       </div>
-      <div class="flex space-x-4">
-        <% if (locals.logado) { %>
+      
+      <!-- Menu Hambúrguer -->
+      <div class="relative lg:hidden">
+        <button id="hamburger-btn" class="focus:outline-none">
+          <img src="/imagens/<%= locals.imagem %>" alt="Menu" class="w-10 h-10 rounded-full">
+        </button>
+        
+        <!-- Menu Hambúrguer Dropdown -->
+        <div id="mobile-menu" class="hidden absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-50">
+          <div class="flex flex-col p-2">
+            <% if (logado) { %>
+              <h2 class="text-lg font-bold mb-2"><%= locals.nome %></h2>
+              <a href="forum" class="hover:bg-gray-200 p-2 rounded">Fórum</a>
+              <a href="cadastroEvento" class="hover:bg-gray-200 p-2 rounded">Cadastro Evento</a>
+              <a href="logout" class="hover:bg-gray-200 p-2 rounded">Logout</a>
+            <% } else { %>
+              <a href="cadastro" class="hover:bg-gray-200 p-2 rounded">Cadastro</a>
+              <a href="login" class="hover:bg-gray-200 p-2 rounded">Login</a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Links de Navegação -->
+      <div class="hidden lg:flex lg:space-x-4 items-center">
+        <% if (logado) { %>
           <a href="forum" class="hover:text-yellow-500">Fórum</a>
           <a href="cadastroEvento" class="hover:text-yellow-500">Cadastro Evento</a>
           <a href="logout" class="hover:text-yellow-500">Logout</a>
+          <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= locals.imagem %>">
         <% } else { %>
           <a href="cadastro" class="hover:text-yellow-500">Cadastro</a>
           <a href="login" class="hover:text-yellow-500">Login</a>
@@ -48,5 +72,14 @@
       </div>
     </div>
   </nav>
+
+  <script>
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
 </body>
 </html>

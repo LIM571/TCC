@@ -19,9 +19,14 @@ require('./auth')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+
 function authenticationMiddleware(req, res, next) {
     if (req.isAuthenticated()) {
         res.locals.imagem = req.session.passport.user.imagem;
+        res.locals.nome = req.session.passport.user.nome;
+        res.locals.id = req.session.passport.user.id;
+
         res.locals.logado = true;
         return next();
     }
@@ -44,16 +49,11 @@ app.get('/', function (req, res) {
     res.render('inicial');
 });
 
-app.get('/home', async (req, res) => {
-    try {
-        const eventos = await Evento.findAll();
-        console.log('Eventos buscados:', eventos); // Log para depuração
-        res.render('home', { eventos });
-    } catch (error) {
-        console.error('Erro ao buscar eventos:', error);
-        res.status(500).send('Erro ao buscar eventos');
-    }
-});
+
+const home = require('./routes/home')
+app.use('/home', authenticationMiddleware, home);
+
+
 
 const Forum = require('./routes/forum');
 app.use('/forum', authenticationMiddleware, Forum);

@@ -27,12 +27,18 @@ module.exports = function(passport) {
     );
 
     passport.serializeUser((user, done) => {
-        done(null, user.id);
+        done(null, {id: user.id, imagem:user.img, nome: user.nome});
     });
 
-    passport.deserializeUser((id, done) => {
-        Usuario.findByPk(id)
-            .then(user => done(null, user))
-            .catch(err => done(err));
-    });
-};
+    passport.deserializeUser(async (id, done) => {
+        try {
+          let user = await Usuario.findAll({
+            where: {
+              id: id,
+            },
+          });
+          done(null, user);
+        } catch (err) {
+          done(err, null);
+        }
+      })};
