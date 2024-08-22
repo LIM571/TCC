@@ -26,12 +26,15 @@ function authenticationMiddleware(req, res, next) {
         res.locals.imagem = req.session.passport.user.imagem;
         res.locals.nome = req.session.passport.user.nome;
         res.locals.id = req.session.passport.user.id;
+        res.locals.id_usuario = req.session.passport.user.id_usuario;
+        res.locals.usuario = req.session.passport.user; // Adicione esta linha
 
         res.locals.logado = true;
         return next();
     }
     res.redirect('/login?erro=1');
 }
+
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');

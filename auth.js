@@ -35,6 +35,7 @@ module.exports = function(passport) {
           let user = await Usuario.findAll({
             where: {
               id: id,
+              
             },
           });
           done(null, user);

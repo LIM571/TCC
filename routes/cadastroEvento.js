@@ -46,7 +46,7 @@ router.post('/', function (req, res) {
                 });
 
                 console.log("Número de registros inseridos: 1");
-                res.redirect('/');
+                res.redirect('/home');
             } catch (err) {
                 console.error(err);
                 res.redirect('/cadastroEvento');

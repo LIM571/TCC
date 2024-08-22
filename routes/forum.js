@@ -7,7 +7,6 @@ router.get('/', async (req, res) => {
     try {
         const usuario = await Usuario.findAll();
         const postagens = await Postagem.findAll();
-        res.render('navbar', { usuario, postagens});
         res.render('forum', { usuario, postagens });
     } catch (error) {
         console.error(error);
