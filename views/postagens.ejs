@@ -17,6 +17,14 @@
                     </p>
                 </div>
             </div>
+
+            <% if (usuario[i].lvl_profissional === usuario.lvl_profissional && usuario[i].categoria === usuario.categoria) { %>
+                <div class="mb-4">
+                    <a href="#" class="bg-red-500 text-white font-bold py-2 px-4 rounded-full">
+                        Desafiar
+                    </a>
+                </div>
+            <% } %>
         <% } %>
     <% } %>
   <% } %>

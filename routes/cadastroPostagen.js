@@ -6,12 +6,6 @@ const path = require('path');
 const crypto = require('crypto');
 const Postagem = require('../model/postagens'); 
 
-// Rota GET para /cadastroPostagen
-router.get('/', function (req, res) {
-    res.render('cadastroPostagen');
-});
-
-// Rota POST para /cadastroPostagen
 router.post('/', function (req, res) {
     const form = new formidable.IncomingForm();
 
@@ -20,6 +14,8 @@ router.post('/', function (req, res) {
             console.error(err);
             return res.redirect('/cadastroPostagen');
         }
+
+        // Agora, req.user deve estar corretamente populado
         const usuario_id = req.user.id;
         const descricao = fields['descricao'][0];
         const nomeimg = crypto.createHash('md5').update(Date.now().toString()).digest('hex') + path.extname(files.midia[0].originalFilename);
@@ -39,18 +35,14 @@ router.post('/', function (req, res) {
                 });
 
                 console.log("Número de registros inseridos: 1");
-                res.redirect('/');
+                res.redirect('/forum');
             } catch (err) {
                 console.error(err);
-                res.redirect('/forum');
+                res.redirect('/forum')
             }
         });
     });
 });
-
-
-
-
 
 
 
