@@ -2,29 +2,34 @@
 
 <div class="flex flex-col items-center">
   <% for (let j = 0; j < postagens.length; j++) { %>
-    <% for (let i = 0; i < usuario.length; i++) { %>
-        <% if (postagens[j].usuario_id == usuario[i].id) { %>
-            <div class="flex items-center p-4 bg-white w-96 text-center mx-auto">
-                <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= usuario[i].img %>" alt="User Avatar">
-                <h2 class="text-xl font-bold"><%= usuario[i].nome %></h2>
-            </div>
+    <% 
+      // Encontre o usuário que fez a postagem atual
+      const userPost = usuarios.find(user => user.id === postagens[j].usuario_id);
+    %>
+    <% if (userPost) { %>
+        <div class="flex items-center p-4 bg-white w-96 text-center mx-auto">
+            <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">
+            <h2 class="text-xl font-bold"><%= userPost.nome %></h2>
+        </div>
 
-            <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white mx-auto mb-4">
-                <img class="w-96 h-64 object-cover" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
-                <div class="p-4">
-                    <p class="text-gray-700 text-base">
-                        <%= postagens[j].descricao %>
-                    </p>
-                </div>
+        <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white mx-auto mb-4">
+            <img class="w-96 h-64 object-cover" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
+            <div class="p-4">
+                <p class="text-gray-700 text-base">
+                    <%= postagens[j].descricao %>
+                </p>
             </div>
+        </div>
 
-            <% if (usuario[i].lvl_profissional === usuario.lvl_profissional && usuario[i].categoria === usuario.categoria) { %>
-                <div class="mb-4">
-                    <a href="#" class="bg-red-500 text-white font-bold py-2 px-4 rounded-full">
-                        Desafiar
-                    </a>
-                </div>
-            <% } %>
+        <% 
+          // Comparar o nível profissional e a categoria do usuário da postagem com o usuário atual
+          if (usuarioAtual && userPost.lvl_profissional === usuarioAtual.lvl_profissional && userPost.categoria === usuarioAtual.categoria) { 
+        %>
+            <div class="mb-4">
+                <a href="#" class="bg-red-500 text-white font-bold py-2 px-4 rounded-full">
+                    Desafiar
+                </a>
+            </div>
         <% } %>
     <% } %>
   <% } %>
