@@ -7,8 +7,8 @@
     <title>Home</title>
 </head>
 <body class="bg-yellow-400">
-    <%- include(`navbar`)%>
-    <%- include(`postEventos`)%>
+    <%- include('navbar', { usuarioAtual: usuarioAtual, logado: logado }) %>
+        <%- include(`postEventos`)%>
 
 
     

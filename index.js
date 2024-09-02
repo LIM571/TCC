@@ -19,8 +19,6 @@ require('./auth')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 function authenticationMiddleware(req, res, next) {
     if (req.isAuthenticated()) {
         res.locals.imagem = req.session.passport.user.imagem;
@@ -32,7 +30,6 @@ function authenticationMiddleware(req, res, next) {
     }
     res.redirect('/login?erro=1');
 }
-
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -50,11 +47,8 @@ app.get('/', function (req, res) {
     res.render('inicial');
 });
 
-
 const home = require('./routes/home')
 app.use('/home', authenticationMiddleware, home);
-
-
 
 const Forum = require('./routes/forum');
 app.use('/forum', authenticationMiddleware, Forum);
@@ -81,7 +75,6 @@ app.get('/logout', function (req, res, next) {
     });
   });
   
-
 (async () => {
     try {
         await database.sync();

@@ -60,12 +60,15 @@
 
       <!-- Links de Navegação -->
       <div class="hidden lg:flex lg:space-x-4 items-center">
-        <% if (logado) { %>
+        <% if (logado) { %> 
+
+        <%   console.log('usuarioAtual: ' + usuarioAtual)
+        {%> <% } %>
+
           <a href="forum" class="hover:text-yellow-500">Fórum</a>
           <a href="cadastroEvento" class="hover:text-yellow-500">Cadastro Evento</a>
           <a href="logout" class="hover:text-yellow-500">Logout</a>
-          <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= locals.imagem %>">
-        <% } else { %>
+          <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= usuarioAtual.img %>">        <% } else { %>
           <a href="cadastro" class="hover:text-yellow-500">Cadastro</a>
           <a href="login" class="hover:text-yellow-500">Login</a>
         <% } %>

@@ -8,7 +8,9 @@ const Evento = require('../model/evento'); // Certifique-se de que o caminho est
 
 // Rota GET para /cadastroEvento
 router.get('/', function (req, res) {
-    res.render('cadastroEvento');
+    const usuarioAtual = req.user;
+    res.render('cadastroEvento', {usuarioAtual});
+
 });
 
 // Rota POST para /cadastroEvento
@@ -20,7 +22,7 @@ router.post('/', function (req, res) {
             console.error(err);
             return res.redirect('/cadastroEvento');
         }
-
+        const id_usuario = req.user.id;
         const nome_evento = fields['nome_evento'][0];
         const descricao_evento = fields['descricao_evento'][0];
         const ingresso = parseFloat(fields['ingresso'][0]);
@@ -37,6 +39,7 @@ router.post('/', function (req, res) {
 
             try {
                 await Evento.create({
+                    id_usuario: id_usuario,
                     nome_evento: nome_evento,
                     descricao_evento: descricao_evento,
                     ingresso: ingresso,
@@ -44,7 +47,7 @@ router.post('/', function (req, res) {
                     insta: insta,
                     midia: nomeimg
                 });
-
+                
                 console.log("Número de registros inseridos: 1");
                 res.redirect('/home');
             } catch (err) {
