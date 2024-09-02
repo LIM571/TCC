@@ -7,9 +7,9 @@ router.get('/', async (req, res) => {
     try {
         const usuarios = await Usuario.findAll();
         const postagens = await Postagem.findAll();
-
-        // Incluindo o usuário atual, se estiver logado
         const usuarioAtual = req.user;
+
+
 
         res.render('forum', { usuarios, postagens, usuarioAtual });
     } catch (error) {

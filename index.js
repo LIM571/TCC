@@ -25,9 +25,7 @@ function authenticationMiddleware(req, res, next) {
     if (req.isAuthenticated()) {
         res.locals.imagem = req.session.passport.user.imagem;
         res.locals.nome = req.session.passport.user.nome;
-        res.locals.id = req.session.passport.user.id;
-        res.locals.id_usuario = req.session.passport.user.id_usuario;
-        res.locals.usuario = req.session.passport.user; // Adicione esta linha
+        res.locals.usuario = req.session.passport.user; 
 
         res.locals.logado = true;
         return next();

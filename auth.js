@@ -26,20 +26,21 @@ module.exports = function(passport) {
         )
     );
 
+
     passport.serializeUser((user, done) => {
-        done(user.id_usuario, {id: user.id, imagem:user.img, nome: user.nome});
+        done(null, {id: user.id, img: user.img});
     });
 
     passport.deserializeUser(async (id, done) => {
         try {
-          let user = await Usuario.findAll({
-            where: {
-              id: id,
-              
-            },
-          });
-          done(null, user);
+            const user = await Usuario.findOne({ where: { id: id } });
+            if (user) {
+                done(null, user); // Passe o objeto de usuário diretamente
+            } else {
+                done(null, false);
+            }
         } catch (err) {
-          done(err, null);
+            done(err, null);
         }
-      })}
+    });
+};
