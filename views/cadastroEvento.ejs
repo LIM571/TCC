@@ -7,6 +7,11 @@
     <title>Cadastro de Eventos</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+
+        .body{
+            background-color: #2e2e2e;
+        }
+
         #image-preview {
             display: none;
             height: 100%;
@@ -34,7 +39,7 @@
     </style>
 </head>
 
-<body class="bg-yellow-400">
+<body class="body">
     <!-- Navbar -->
     <header>
         <nav>
@@ -72,7 +77,7 @@
                     <div class="mb-4">
                         <input type="number" step="0.01" name="ingresso" id="ingresso" class="w-full p-2 rounded bg-gray-100" placeholder="Preço do Ingresso" required>
                     </div>
-                    <button type="submit" class="w-full bg-black text-white py-2 rounded">Enviar</button>
+                    <button type="submit" class="w-full bg-red-700 hover:bottom-2 text-white py-2 rounded">Enviar</button>
                 </div>
             </div>
         </div>

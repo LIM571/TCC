@@ -6,9 +6,7 @@
   <title>Navbar</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    .navbar-bg {
-      background-color: #333333;
-    }
+    
     .logo-default {
       display: block;
     }
@@ -24,31 +22,32 @@
   </style>
 </head>
 <body>
-  <nav class="navbar-bg text-white p-4">
+  <nav class="navbar-bg text-white p-4 bg-red-700">
     <div class="container mx-auto flex justify-between items-center">
       <div class="flex items-center">
         <div class="logo-container">
           <a href="/home">
             <img src="/img/logo.png" alt="Logo" class="w-18 h-10 mr-3 logo-default">
-            <img src="/img/lg.png" alt="Logo" class="w-18 h-10 mr-3 logo-hover">
+            <img src="/img/logobb.png" alt="Logo" class="w-18 h-10 mr-3 logo-hover">
           </a>
         </div>
-        <span class="text-lg font-bold hover:text-yellow-500"><a href="/home">RamMuay</a></span>
+        <span class="text-lg font-bold hover:text-black"><a href="/home">RamMuay</a></span>
       </div>
       
       <!-- Menu Hambúrguer -->
       <div class="relative lg:hidden">
         <button id="hamburger-btn" class="focus:outline-none">
-          <img src="/imagens/<%= locals.imagem %>" alt="Menu" class="w-10 h-10 rounded-full">
+          <img src="/imagens/<%= usuarioAtual.img %>" alt="Menu" class="w-10 h-10 rounded-full">
         </button>
         
         <!-- Menu Hambúrguer Dropdown -->
         <div id="mobile-menu" class="hidden absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-50">
           <div class="flex flex-col p-2">
             <% if (logado) { %>
-              <h2 class="text-lg font-bold mb-2"><%= locals.nome %></h2>
+              <h2 class="text-lg font-bold mb-2"><%= usuarioAtual.nome  %></h2>
               <a href="forum" class="hover:bg-gray-200 p-2 rounded">Fórum</a>
-              <a href="cadastroEvento" class="hover:bg-gray-200 p-2 rounded">Cadastro Evento</a>
+              <a href="cadastroEvento" class="hover:bg-gray-200 p-2 rounded">Cadastrar Eventos</a>
+              <a href="perfil" class="hover:bg-gray-200 p-2 rounded">Perfil</a>
               <a href="logout" class="hover:bg-gray-200 p-2 rounded">Logout</a>
             <% } else { %>
               <a href="cadastro" class="hover:bg-gray-200 p-2 rounded">Cadastro</a>
@@ -65,12 +64,13 @@
         <%   console.log('usuarioAtual: ' + usuarioAtual)
         {%> <% } %>
 
-          <a href="forum" class="hover:text-yellow-500">Fórum</a>
-          <a href="cadastroEvento" class="hover:text-yellow-500">Cadastro Evento</a>
-          <a href="logout" class="hover:text-yellow-500">Logout</a>
+          <a href="forum" class="hover:text-black">Fórum</a>
+          <a href="cadastroEvento" class="hover:text-black">Cadastrar Eventos</a>
+          <a href="perfil" class="hover:text-black">Perfil</a>
+          <a href="logout" class="hover:text-black">Logout</a>
           <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= usuarioAtual.img %>">        <% } else { %>
-          <a href="cadastro" class="hover:text-yellow-500">Cadastro</a>
-          <a href="login" class="hover:text-yellow-500">Login</a>
+          <a href="cadastro" class="hover:text-black">Cadastro</a>
+          <a href="login" class="hover:text-black">Login</a>
         <% } %>
       </div>
     </div>

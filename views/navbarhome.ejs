@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .logo-default {
+      display: block;
+    }
+    .logo-hover {
+      display: none;
+    }
+    .logo-container:hover .logo-default {
+      display: none;
+    }
+    .logo-container:hover .logo-hover {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar-bg text-white p-4 bg-red-700">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center">
+        <!-- Logo -->
+        <div class="logo-container">
+          <a href="/home">
+            <img src="/img/logo.png" alt="Logo" class="w-18 h-10 mr-3 logo-default">
+            <img src="/img/logobb.png" alt="Logo" class="w-18 h-10 mr-3 logo-hover">
+          </a>
+        </div>
+        <span class="text-lg font-bold hover:text-black"><a href="/home">RamMuay</a></span>
+      </div>
+
+      <!-- Menu links para telas grandes -->
+      <div class="hidden lg:flex lg:space-x-4 items-center">
+        <a href="cadastro" class="hover:text-black">Cadastro</a>
+        <a href="login" class="hover:text-black">Login</a>
+      </div>
+
+      <!-- Botão hambúrguer para telas pequenas -->
+      <div class="lg:hidden">
+        <button id="hamburger-btn" class="focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menu dropdown para telas pequenas -->
+    <div id="mobile-menu" class="hidden lg:hidden">
+      <a href="cadastro" class="block p-2 text-white hover:bg-gray-700">Cadastro</a>
+      <a href="login" class="block p-2 text-white hover:bg-gray-700">Login</a>
+    </div>
+  </nav>
+
+  <script>
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    hamburgerBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>

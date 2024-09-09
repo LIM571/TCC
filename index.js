@@ -7,6 +7,7 @@ const passport = require('passport');
 const Evento = require('./model/evento');
 const Postagem = require('./model/postagens'); 
 const Usr = require('./model/Usuario')
+const Respostas = require('./model/Respostas')
 const database = require('./db')
 
 app.use(session({
@@ -47,8 +48,13 @@ app.get('/', function (req, res) {
     res.render('inicial');
 });
 
+
+
 const home = require('./routes/home')
 app.use('/home', authenticationMiddleware, home);
+
+const perfil = require('./routes/perfil')
+app.use('/perfil', authenticationMiddleware, perfil);
 
 const Forum = require('./routes/forum');
 app.use('/forum', authenticationMiddleware, Forum);

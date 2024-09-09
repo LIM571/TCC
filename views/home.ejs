@@ -1,20 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Eventos de Luta</title>
+    
+    <!-- Importando Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Home</title>
+    
+    <!-- Estilos Customizados -->
+    <style>
+        body {
+            background-color: #2e2e2e;
+        }
+    </style>
 </head>
-<body class="bg-yellow-400">
+
+<body class="bg-gray-900 font-roboto">
+    <!-- Navbar -->
     <%- include('navbar', { usuarioAtual: usuarioAtual, logado: logado }) %>
-        <%- include(`postEventos`)%>
 
+    <!-- Hero Section -->
+    <header class="bg-gray-800 py-16 text-center shadow-lg">
+        <h1 class="text-5xl font-extrabold mb-6 text-red-500">Eventos de Luta</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto">Entre no ringue das melhores competições de artes marciais. Prepare-se para viver toda a emoção dos nossos eventos e apoiar os lutadores em cada combate.</p>
+        <h2 class="font-semibold text-gray-200 mt-4 text-2xl">Se depender de nós, vamos até o fim!</h2>
+        <a href="#eventos" id="scroll-button" class="mt-8 inline-block bg-red-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-red-700 transition duration-300">Ver Eventos</a>
+    </header>
 
-    
-    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Seção de Descrição -->
+        <section class="mb-16 text-center">
+            <h2 class="text-4xl font-bold mb-6 text-red-500">Como Funciona</h2>
+            <p class="text-lg text-gray-300 max-w-4xl mx-auto">Nossa plataforma conecta lutadores, organizadores e fãs. Explore eventos, veja horários e locais, e prepare-se para assistir a grandes batalhas nos ringues. Crie seu próprio evento e mostre do que é capaz.</p>
+        </section>
 
+        <!-- Seção de Eventos -->
+        <section id="eventos">
+            <%- include(`postEventos`) %>
+        </section>
+    </main>
 
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-6 text-center">
+        <p class="text-gray-400 text-sm">© 2024 RamMuay - Se depender de nós, vamos até o fim!</p>
+    </footer>
 
+    <!-- JavaScript para Scroll Suave -->
+    <script>
+        document.getElementById('scroll-button').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector('#eventos').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
 </body>
+
 </html>
