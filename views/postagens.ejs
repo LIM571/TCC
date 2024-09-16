@@ -20,15 +20,34 @@
                 </p>
 
                 <% // Verificar se o usuário da postagem corresponde ao critério de desafio %>
+
+                <form action="resposta/cadastro" method="POST" class="bg-red-500">
+                    <button type="submit">Teste</button>
+                    <input type="text" name="postagem_id" hidden value="<%= postagens[j].id_post %>"><input>
+                </form>
+
                 <% if (userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
                     <div class="mb-4">
                         <a href="#" class="bg-red-500 text-white font-bold py-2 px-4 rounded-full">
                             Desafiar
                         </a>
                     </div>
+
                 <% } %>
+                    <% for (let x = 0; x < resposta.length; x++) { 
+                        if ( postagens[j].id_post == resposta[x].postagem_id) { %>
+                        <p><%= resposta[x].conteudo %></p>
+                        <% } %>
+                        <% } %>
             </div>
         </div>
     <% } %>
+
+
   <% } %>
+
+ 
+
 </div>
+
+

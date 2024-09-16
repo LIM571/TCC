@@ -56,6 +56,8 @@ app.use('/home', authenticationMiddleware, home);
 const editar = require('./routes/editar');
 app.use('/editar', authenticationMiddleware, editar);
 
+const cadastroResposta = require('./routes/resposta');
+app.use('/resposta', cadastroResposta);  // Use as rotas definidas
 
 const perfil = require('./routes/perfil')
 app.use('/perfil', authenticationMiddleware, perfil);

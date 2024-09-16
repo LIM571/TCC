@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Resposta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800 min-h-screen flex flex-col">
+    <!-- Navbar -->
+
+    <!-- Container centralizado -->
+    <div class="flex-grow flex items-center justify-center mt-10 mb-10">
+        <!-- Card -->
+        <div class="bg-white p-6 rounded-lg shadow-md max-w-2xl w-full">
+            <h2 class="text-2xl font-semibold mb-6">Cadastrar Resposta</h2>
+
+            <form action="/resposta/envio" method="POST">
+               
+                <div class="mb-4">
+                    <label for="conteudo" class="block text-gray-700">Conteúdo da Resposta</label>
+                    <textarea id="conteudo" name="conteudo" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required></textarea>
+                    <input name="postagem_id" type="text" hidden value="<%= postagem_id %>">
+                </div>
+
+                <div class="text-center mt-6">
+                    <button type="submit" class="bg-red-700 text-white px-6 py-2 rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        Cadastrar Resposta
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
