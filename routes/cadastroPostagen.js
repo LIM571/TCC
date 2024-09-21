@@ -4,7 +4,7 @@ const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const Postagem = require('../model/postagens');
+const Postagem = require('../model/postagens'); 
 
 router.post('/', function (req, res) {
     const form = new formidable.IncomingForm();
@@ -15,8 +15,9 @@ router.post('/', function (req, res) {
             return res.redirect('/cadastroPostagen');
         }
 
+        // Agora, req.user deve estar corretamente populado
         const usuario_id = req.user.id;
-        const topico_id = req.params.topicoId; // Captura o ID do tópico da URL
+        const topico_id =  fields['topico'][0];
         const descricao = fields['descricao'][0];
         const nomeimg = crypto.createHash('md5').update(Date.now().toString()).digest('hex') + path.extname(files.midia[0].originalFilename);
         const newpath = path.join(__dirname, "../public/imagens/", nomeimg);
@@ -39,10 +40,12 @@ router.post('/', function (req, res) {
                 res.redirect('/forum');
             } catch (err) {
                 console.error(err);
-                res.redirect('/forum');
+                res.redirect('/forum')
             }
         });
     });
 });
+
+
 
 module.exports = router;
