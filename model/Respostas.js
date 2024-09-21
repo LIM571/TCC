@@ -1,7 +1,7 @@
 const database = require('../db');
 const Sequelize = require('sequelize');
 const postagens = require('./postagens');  // Importando o modelo de postagens
-const Usuario = require('./Usuario'); // Importando o modelo de usuário
+const Usuario = require('./Usuario');
 
 const Respostas = database.define('respostas', {
   id_resposta: { 

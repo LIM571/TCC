@@ -49,9 +49,11 @@ app.get('/', function (req, res) {
 });
 
 
-
-const home = require('./routes/home')
+const home = require('./routes/home');
 app.use('/home', authenticationMiddleware, home);
+
+const topicosRouter = require('./routes/topicos');
+app.use('/forum/topicos', authenticationMiddleware, topicosRouter);
 
 const editar = require('./routes/editar');
 app.use('/editar', authenticationMiddleware, editar);

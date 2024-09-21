@@ -1,53 +1,152 @@
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<div class="flex flex-col items-center">
-  <% for (let j = 0; j < postagens.length; j++) { %>
-    <% 
-      // Encontre o usuário que fez a postagem atual
-      const userPost = usuarios.find(user => user.id === postagens[j].usuario_id);
-    %>
-    <% if (userPost) { %>
-        <div class="flex items-center p-4 bg-white w-96 text-center mx-auto">
-            <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">
-            <h2 class="text-xl font-bold"><%= userPost.nome %></h2>
+<div class="flex p-6">
+    <div id="forumContainer" class="bg-red-700 p-6 rounded-lg shadow-lg w-1/4 mr-6 h-auto transition-all duration-300">
+        <h1 class="text-white text-3xl mb-4">Fórum</h1>
+        <div class="flex justify-between mb-4">
+            <a href="/forum" class="text-white">Fórum</a>
+            <a href="#" id="addTopico" class="text-white underline cursor-pointer" onclick="toggleForm()">Adicionar Tópico</a>
         </div>
 
-        <div class="max-w-sm rounded overflow-hidden shadow-lg bg-white mx-auto mb-4">
-            <img class="w-96 h-64 object-cover" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
-            <div class="p-4">
-                <p class="text-gray-700 text-base">
-                    <%= postagens[j].descricao %>
-                </p>
+        <div id="formContainer" class="hidden mb-4">
+            <form onsubmit="return addTopico(event)" class="bg-gray-800 p-4 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <label for="titulo" class="block text-white mb-2">Título:</label>
+                    <input type="text" id="titulo" name="titulo" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div class="mb-4">
+                    <label for="descricao" class="block text-white mb-2">Descrição:</label>
+                    <textarea id="descricao" name="descricao" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                </div>
+                <button type="submit" class="bg-red-800 text-white px-4 py-2 rounded-md hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500">
+                    Adicionar Tópico
+                </button>
+            </form>
+        </div>
 
-                <% // Verificar se o usuário da postagem corresponde ao critério de desafio %>
+        <ul id="topicosList" class="space-y-2">
+            <% topicos.forEach(topico => { %>
+                <li class="bg-gray-800 p-4 rounded-lg shadow-lg">
+                    <h2 class="text-white text-xl font-bold"><%= topico.titulo %></h2>
+                    <a href="/forum/<%= topico.id %>" class="text-blue-400">Ver Discussão</a>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
 
-                <form action="resposta/cadastro" method="POST" class="bg-red-500">
-                    <button type="submit">Teste</button>
-                    <input type="text" name="postagem_id" hidden value="<%= postagens[j].id_post %>"><input>
-                </form>
+    <div class="flex-grow p-6">
+        <div id="postagens-container" class="flex flex-col space-y-4 p-4 rounded-lg shadow-lg">
+            <% for (let j = 0; j < postagens.length; j++) { %>
+                <% if (postagens[j].id_topico === 0) { %> <!-- Verifica se id_topico é igual a 0 -->
+                    <% const userPost = usuarios.find(user => user.id === postagens[j].usuario_id); %>
+                    <% if (userPost) { %>
+                        <div class="postagem flex flex-col p-6 bg-white w-96 lg mx-auto text-center shadow-md rounded-lg h-5/6">
+                            <div class="flex items-center mb-2">
+                                <img class="w-12 h-12 rounded-full mr-2" src="/imagens/<%= userPost.img %>" alt="User Avatar">
+                                <h2 class="text-lg font-bold text-black"><%= userPost.nome %></h2>
+                            </div>
+                            <img class="w-full h-48 object-cover rounded-md mb-2" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
+                            <p class="text-black text-base mb-2">
+                                <%= postagens[j].descricao %>
+                            </p>
 
-                <% if (userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
-                    <div class="mb-4">
-                        <a href="#" class="bg-red-500 text-white font-bold py-2 px-4 rounded-full">
-                            Desafiar
-                        </a>
-                    </div>
+                            <div class="flex justify-around items-center">
+                                <form action="resposta/cadastro" method="POST" class="flex items-center space-x-2">
+                                    <input type="hidden" name="postagem_id" value="<%= postagens[j].id_post %>">
+                                    <button type="submit" class="text-black hover:text-red-500 flex items-center space-x-1">
+                                        <i class="fas fa-comment-alt fa-lg"></i>
+                                        <span class="text-sm">Responder</span>
+                                    </button>
+                                </form>
 
+                                <% if (userPost.categoria === usuarioAtual.categoria && 
+                                        userPost.lvl_profissional === usuarioAtual.lvl_profissional && 
+                                        userPost.id !== usuarioAtual.id) { %> <!-- Condição atualizada -->
+                                    <a href="#" class="text-black hover:text-red-500 flex items-center space-x-1">
+                                        <i class="fas fa-fist-raised fa-lg"></i>
+                                        <span class="text-sm">Desafiar</span>
+                                    </a>
+                                <% } %>
+                            </div>
+
+                            <div class="mt-2">
+                                <button onclick="toggleComentarios(<%= postagens[j].id_post %>)" class="bg-red-700 hover:bg-red-800 text-white font-bold py-1 px-2 rounded-full mb-2">
+                                    Mostrar Comentários
+                                </button>
+
+                                <div id="comentarios-<%= postagens[j].id_post %>" class="hidden">
+                                    <h3 class="text-lg font-bold mb-2">Respostas</h3>
+                                    <% let count = 0; %>
+                                    <% for (let x = 0; x < resposta.length; x++) { 
+                                        const userResposta = usuarios.find(user => user.id === resposta[x].usuario_id);
+                                        if (postagens[j].id_post == resposta[x].postagem_id) { %>
+                                            <% if (count < 5) { %>
+                                                <div class="bg-gray-700 p-2 rounded-lg mb-2 shadow-sm flex items-center">
+                                                    <img class="w-8 h-8 rounded-full mr-2" src="/imagens/<%= userResposta.img %>" alt="User Avatar">
+                                                    <div>
+                                                        <p class="font-bold text-gray-300"><%= userResposta.nome %></p>
+                                                        <p class="text-gray-200 text-sm"><%= resposta[x].conteudo %></p>
+                                                    </div>
+                                                </div>
+                                                <% count++; %>
+                                            <% } %>
+                                        <% } %>
+                                    <% } %>
+
+                                    <% if (resposta.length > 5) { %>
+                                        <button onclick="loadMore(<%= postagens[j].id_post %>)" class="bg-red-700 hover:bg-red-800 text-white font-bold py-1 px-2 rounded-full">
+                                            Ver Mais
+                                        </button>
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
                 <% } %>
-                    <% for (let x = 0; x < resposta.length; x++) { 
-                        if ( postagens[j].id_post == resposta[x].postagem_id) { %>
-                        <p><%= resposta[x].conteudo %></p>
-                        <% } %>
-                        <% } %>
-            </div>
+            <% } %>
         </div>
-    <% } %>
-
-
-  <% } %>
-
- 
-
+    </div>
 </div>
 
+<script>
+    function toggleComentarios(postId) {
+        const comentariosDiv = document.getElementById(`comentarios-${postId}`);
+        comentariosDiv.classList.toggle('hidden');
+    }
 
+    function toggleForm() {
+        const formContainer = document.getElementById('formContainer');
+        formContainer.classList.toggle('hidden');
+    }
+
+    function addTopico(event) {
+        event.preventDefault();
+
+        const titulo = document.getElementById('titulo').value;
+        const descricao = document.getElementById('descricao').value;
+
+        const topicosList = document.getElementById('topicosList');
+        const newTopic = document.createElement('li');
+        newTopic.className = "bg-gray-800 p-4 rounded-lg shadow-lg";
+        newTopic.innerHTML = `<h2 class="text-white text-xl font-bold">${titulo}</h2>
+                              <a href="#" class="text-blue-400">Ver Discussão</a>`;
+        topicosList.prepend(newTopic);
+
+        const forumContainer = document.getElementById('forumContainer');
+        forumContainer.classList.remove('h-96');
+        forumContainer.classList.add('h-auto');
+
+        document.getElementById('titulo').value = '';
+        document.getElementById('descricao').value = '';
+        toggleForm();
+    }
+
+    function loadMorePosts() {
+        const postagens = document.querySelectorAll('.postagem');
+        postagens.forEach(postagem => {
+            postagem.classList.remove('hidden');
+        });
+        document.getElementById('btnVerMais').classList.add('hidden');
+    }
+</script>
