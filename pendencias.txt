@@ -9,5 +9,8 @@ armazenar o desafiar no banco
 redirecior certo pro insta/maps
 deixar as partes do topico menor(parte vermelha no caso)
 no forum/ deixar apenas as opcoes de posts que nao foram cadastratadas em um forum especifico
-ta dando erro na parte de cadastrar agr
 nao ser obrigatorio as imgs do forum
+quando apaga a tela fica feia
+qualquer um consegue apagar os posts pela URL
+validar mestres
+erro quando estou em /forum sempre que seleciono um link fica forum/forum

@@ -3,17 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sobre</title>
-</head>
-<style>
-     .body{
-            background-color: #2e2e2e;
+    <title>Sobre - RamMuay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Sombra vermelha nos cards */
+        .hover-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.5); /* Sombra vermelha */
         }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <!-- Navbar -->
+    <%- include(`navbarhome`)%>
 
-</style>
-<body class="body">
-    <nav>
-        <%- include(`navbarhome`)%>
-    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gray-800 py-24 text-center">
+        <div class="container mx-auto">
+            <h2 class="text-5xl font-bold text-white mb-6">A Central de Muay Thai</h2>
+            <p class="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+                RamMuay é mais que uma plataforma. É um espaço para conectar lutadores, treinadores e entusiastas do Muay Thai. Participe de fóruns, desafie seus amigos, ou encontre os próximos eventos na sua região. Bem-vindo à sua comunidade de Muay Thai.
+            </p>
+            <a href="#features" class="bg-red-700 hover:bg-red-800 text-white px-8 py-3 rounded-full text-lg transition-all shadow-md">Descubra Mais</a>
+        </div>
+    </section>
+
+    <!-- Funcionalidades Section -->
+    <section id="features" class="py-16">
+        <div class="container mx-auto text-center mb-12">
+            <h3 class="text-4xl font-bold text-white mb-4">Funcionalidades</h3>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                RamMuay oferece uma série de ferramentas e funcionalidades pensadas especialmente para a comunidade de Muay Thai.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 container mx-auto">
+            <!-- Desafios -->
+            <div class="relative bg-black p-8 rounded-lg shadow-lg hover-card transform transition-all">
+                <div class="flex justify-center mb-6">
+                    <!-- Ícone de luva -->
+                    </svg>
+                    <img src="https://img.icons8.com/?size=100&id=9795&format=png&color=FA5252" alt="">
+                </div>
+                <h4 class="text-2xl font-bold text-red-500 mb-4">Desafios</h4>
+                <p class="text-gray-400">
+                    Teste suas habilidades desafiando outros lutadores da plataforma. Registre seus resultados e melhore seu desempenho com base nas estatísticas.
+                </p>
+            </div>
+
+            <!-- Fóruns -->
+            <div class="relative bg-black p-8 rounded-lg shadow-lg hover-card transform transition-all">
+                <div class="flex justify-center mb-6">
+                    <!-- Ícone de fóruns -->
+                   <img src="https://img.icons8.com/?size=100&id=54385&format=png&color=FA5252" alt="">
+
+                </div>
+                <h4 class="text-2xl font-bold text-red-500 mb-4">Fóruns</h4>
+                <p class="text-gray-400">
+                    Engaje em discussões com outros praticantes de Muay Thai, troque experiências e aprenda com os melhores. Conhecimento compartilhado fortalece.
+                </p>
+            </div>
+
+            <!-- Eventos -->
+            <div class="relative bg-black p-8 rounded-lg shadow-lg hover-card transform transition-all">
+                <div class="flex justify-center mb-6">
+                    <!-- Ícone de ticket -->
+                    <img src="https://img.icons8.com/?size=100&id=8851&format=png&color=FA5252" alt="">
+
+                </div>
+                <h4 class="text-2xl font-bold text-red-500 mb-4">Eventos</h4>
+                <p class="text-gray-400">
+                    Não perca nenhum evento de Muay Thai! Cadastre, compartilhe e descubra competições e treinos próximos de você. Fique sempre informado.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Eventos Section -->
+    <section id="events" class="bg-gray-800 py-16 text-center">
+        <div class="container mx-auto">
+            <h3 class="text-4xl font-bold text-white mb-8">Próximos Eventos</h3>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+                Explore e participe dos próximos eventos de Muay Thai. Confira as competições, seminários e encontros que estão acontecendo em sua área.
+            </p>
+
+            <!-- Cards de Eventos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <!-- Exemplo de Evento 1 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-all">
+                    <img src="/img/evento3.png" alt="Evento" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">Open Aron</h4>
+                        <p class="text-gray-400 mb-4">Open Aron Six - O Maior Evento de Lutas de muay de Portão de Muay Thai
+                        </p>
+                        <a href="#" class="text-red-500 hover:text-red-600 transition">Saiba Mais</a>
+                    </div>
+                </div>
+
+                <!-- Exemplo de Evento 2 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-all">
+                    <img src="/img/evento1.png" alt="Evento" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">Asperan1
+                        </h4>
+                        <p class="text-gray-400 mb-4">N1 e Aspera unem forças para criar uma NOVA ERA dos eventos de luta no Brasil!
+                            MMA, Muay Thai & Grappling</p>
+                        <a href="#" class="text-red-500 hover:text-red-600 transition">Saiba Mais</a>
+                    </div>
+                </div>
+
+                <!-- Exemplo de Evento 3 -->
+                <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg hover:scale-105 transition-all">
+                    <img src="/img/evento2.png" alt="Evento" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-2xl font-bold mb-2">ATTACK FIGHT</h4>
+                        <p class="text-gray-400 mb-4">O ATTACK FIGHT é o maior evento de Muay Thai profissional da América Latina
+                        </p>
+                        <a href="#" class="text-red-500 hover:text-red-600 transition">Saiba Mais</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-8">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-400">© 2024 RamMuay. Todos os direitos reservados.</p>
+        </div>
+    </footer>
 </body>
 </html>

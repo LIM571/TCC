@@ -5,25 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Novo Tópico</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style> 
-        .body {
-            background-color: #2e2e2e;
-        }
-        .sidebar {
-            width: 20%;
-        }
+    <style>
+        /* Estilos adicionais, se necessário */
     </style>
 </head>
-<body class="body flex p-6"> <!-- Adicionando padding ao body -->
-    <div class="sidebar bg-gray-800 p-6 rounded-lg shadow-lg mt-10 ml-6"> <!-- Margem superior e esquerda -->
-        <h1 class="text-white text-3xl mb-4">Fórum</h1>
+<body class="flex p-6 bg-red-700"> <!-- Adicionando padding ao body -->
+    <div class="bg-red-800 p-6 rounded-lg shadow-lg mt-10 w-4/4"> <!-- Sidebar -->
+        <h1 class="text-white text-3xl mb-6 text-center">Fórum</h1>
         <div class="flex justify-between mb-4">
-            <a href="/forum" class="text-white">Fórum</a>
-            <a href="#" id="addTopico" class="text-white underline cursor-pointer">Adicionar Tópico</a>
+            <a href="/forum" class="text-white hover:underline">Fórum</a>
+            <div class="mx-2"><br></div> <!-- Espaço entre os links -->
+            <a href="#" id="addTopico" class="text-blue-400 hover:underline cursor-pointer">Adicionar Tópico</a>
         </div>
 
         <div id="formContainer" class="hidden mb-4">
-            <form action="/forum/topicos" method="POST" class="bg-red-800 p-6 rounded-lg shadow-md">
+            <form action="/forum/topicos" method="POST" class="bg-red-700 p-6 rounded-lg shadow-md">
                 <div class="mb-4">
                     <label for="titulo" class="block text-white mb-2">Título:</label>
                     <input type="text" id="titulo" name="titulo" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
@@ -32,7 +28,7 @@
                     <label for="descricao" class="block text-white mb-2">Descrição:</label>
                     <textarea id="descricao" name="descricao" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
                 </div>
-                <button type="submit" class="bg-red-800 text-white px-4 py-2 rounded-md hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500">
+                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500">
                     Adicionar Tópico
                 </button>
             </form>
@@ -40,9 +36,9 @@
 
         <ul>
             <% topicos.forEach(topico => { %>
-                <li class="bg-gray-800 p-4 rounded-lg shadow-lg my-4">
+                <li class="bg-gray-700 p-4 rounded-lg shadow-lg my-4 hover:bg-gray-600 transition">
                     <h2 class="text-white text-xl font-bold"><%= topico.titulo %></h2>
-                    <a href="/forum/<%= topico.id %>" class="text-blue-400">Ver Discussão</a>
+                    <a href="/forum/<%= topico.id %>" class="text-blue-400 hover:underline">Ver Discussão</a>
                 </li>
             <% }) %>
         </ul>
