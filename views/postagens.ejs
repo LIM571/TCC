@@ -36,7 +36,6 @@
                                 </button>
                             </form>
 
-                            <!-- Verifica se o usuário atual não é o usuário que fez a postagem -->
                             <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
                                 <a href="#" class="text-gray-500 hover:text-red-500 flex items-center space-x-1">
                                     <i class="fas fa-fist-raised fa-2x"></i>
@@ -48,18 +47,35 @@
                         <!-- Respostas -->
                         <div class="mt-6">
                             <h3 class="text-lg font-bold mb-2">Respostas</h3>
-                            <% for (let x = 0; x < resposta.length; x++) { 
-                                if (postagens[j].id_post == resposta[x].postagem_id) { 
-                                    const responderUser = usuarios.find(user => user.id === resposta[x].usuario_id); %>
-                                    <div class="flex items-start bg-gray-100 p-3 rounded-lg mb-2 shadow-sm">
-                                        <img class="w-10 h-10 rounded-full mr-3" src="/imagens/<%= responderUser.img %>" alt="User Avatar">
-                                        <div>
-                                            <p class="text-gray-800 font-bold"><%= responderUser.nome %></p>
-                                            <p class="text-gray-700"><%= resposta[x].conteudo %></p>
-                                        </div>
-                                    </div>
-                                <% } 
-                            } %>
+                            <div class="comentarios-list" id="comentarios-<%= postagens[j].id_post %>">
+                                <% let displayedComments = 0; %>
+                                <% for (let x = 0; x < resposta.length; x++) { 
+                                    if (postagens[j].id_post == resposta[x].postagem_id) { 
+                                        if (displayedComments < 5) { %>
+                                            <div class="flex items-start bg-gray-100 p-3 rounded-lg mb-2 shadow-sm">
+                                                <img class="w-10 h-10 rounded-full mr-3" src="/imagens/<%= usuarios.find(user => user.id === resposta[x].usuario_id).img %>" alt="User Avatar">
+                                                <div>
+                                                    <p class="text-gray-800 font-bold"><%= usuarios.find(user => user.id === resposta[x].usuario_id).nome %></p>
+                                                    <p class="text-gray-700"><%= resposta[x].conteudo %></p>
+                                                </div>
+                                            </div>
+                                            <% displayedComments++; 
+                                        } 
+                                    } 
+                                } %>
+                            </div>
+
+                            <!-- Botões Mostrar Mais e Mostrar Menos -->
+                            <% if (displayedComments >= 5) { %>
+                                <div class="flex space-x-2">
+                                    <button class="mostrar-mais text-blue-500" data-postagem-id="<%= postagens[j].id_post %>" data-display-count="<%= displayedComments %>">
+                                        Mostrar Mais
+                                    </button>
+                                    <button class="mostrar-menos text-blue-500 hidden" data-postagem-id="<%= postagens[j].id_post %>">
+                                        Mostrar Menos
+                                    </button>
+                                </div>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -67,3 +83,64 @@
         <% } %>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.mostrar-mais').forEach(button => {
+        button.addEventListener('click', function() {
+            const postagemId = this.dataset.postagemId;
+            const comentariosList = document.getElementById(`comentarios-${postagemId}`);
+            const respostas = <%- JSON.stringify(resposta) %>;
+            const usuariosList = <%- JSON.stringify(usuarios) %>;
+            const currentDisplayCount = parseInt(this.dataset.displayCount);
+            let count = 0;
+
+            for (let x = 0; x < respostas.length; x++) {
+                if (respostas[x].postagem_id == postagemId && count < 10) {
+                    if (currentDisplayCount <= x) {
+                        const user = usuariosList.find(user => user.id === respostas[x].usuario_id);
+                        const newComment = `
+                            <div class="flex items-start bg-gray-100 p-3 rounded-lg mb-2 shadow-sm">
+                                <img class="w-10 h-10 rounded-full mr-3" src="/imagens/${user.img}" alt="User Avatar">
+                                <div>
+                                    <p class="text-gray-800 font-bold">${user.nome}</p>
+                                    <p class="text-gray-700">${respostas[x].conteudo}</p>
+                                </div>
+                            </div>`;
+                        
+                        comentariosList.insertAdjacentHTML('beforeend', newComment);
+                        count++;
+                    }
+                }
+            }
+
+            // Atualiza a contagem de comentários exibidos
+            this.dataset.displayCount = currentDisplayCount + count;
+
+            // Se não houver mais comentários, oculta o botão "Mostrar Mais"
+            if (count < 10) {
+                this.style.display = 'none';
+            }
+            // Mostra o botão "Mostrar Menos"
+            document.querySelector(`.mostrar-menos[data-postagem-id='${postagemId}']`).classList.remove('hidden');
+        });
+    });
+
+    document.querySelectorAll('.mostrar-menos').forEach(button => {
+        button.addEventListener('click', function() {
+            const postagemId = this.dataset.postagemId;
+            const comentariosList = document.getElementById(`comentarios-${postagemId}`);
+            const allComments = comentariosList.children;
+
+            // Oculta todos os comentários além dos primeiros 5
+            for (let i = 5; i < allComments.length; i++) {
+                allComments[i].style.display = 'none';
+            }
+
+            // Atualiza o botão "Mostrar Menos"
+            this.classList.add('hidden');
+            const mostrarMaisButton = document.querySelector(`.mostrar-mais[data-postagem-id='${postagemId}']`);
+            mostrarMaisButton.style.display = 'block';
+            mostrarMaisButton.dataset.displayCount = '5'; // Reseta a contagem
+        });
+    });
+</script>
