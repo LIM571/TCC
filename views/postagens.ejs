@@ -1,64 +1,68 @@
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<div class="w-3/12">
-    <%- include(`topico`)%>
+<div class="flex p-6 space-x-6">
+    <!-- Tópicos -->
+    <div class="w-3/12">
+        <%- include('topico') %>
+    </div>
 
-</div>
-
-<div class="flex flex-col items-center">
-  <% for (let j = 0; j < postagens.length; j++) { %>
-    <% 
-      const userPost = usuarios.find(user => user.id === postagens[j].usuario_id);
-    %>
-    <% if (userPost) { %>
-        <!-- Informações do Usuário -->
-        <div class="flex items-center p-4 bg-white w-96 text-center mx-auto mb-4 shadow-md rounded-lg">
-            <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">
-            <h2 class="text-xl font-bold text-gray-800"><%= userPost.nome %></h2>
-        </div>
-
-        <!-- Postagem -->
-        <div class="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white mx-auto mb-6">
-            <img class="w-96 h-64 object-cover" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
-            <div class="p-6">
-                <p class="text-gray-700 text-base mb-4">
-                    <%= postagens[j].descricao %>
-                </p>
-
-                <!-- Ícones e Nomes (Responder e Desafiar) -->
-                <div class="flex justify-around items-center mt-4 space-x-4">
-                    <!-- Ícone e Texto de Responder -->
-                    <form action="resposta/cadastro" method="POST" class="flex items-center space-x-2">
-                        <input type="hidden" name="postagem_id" value="<%= postagens[j].id_post %>">
-                        <button type="submit" class="text-gray-500 hover:text-red-500 flex items-center space-x-1">
-                            <i class="fas fa-comment-alt fa-2x"></i>
-                            <span class="text-lg">Responder</span>
-                        </button>
-                    </form>
-
-                    <% if (userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
-                        <!-- Ícone e Texto de Desafiar -->
-                        <a href="#" class="text-gray-500 hover:text-red-500 flex items-center space-x-1">
-                            <i class="fas fa-fist-raised fa-2x"></i>
-                            <span class="text-lg">Desafiar</span>
-                        </a>
-                    <% } %>
+    <!-- Postagens -->
+    <div class="w-9/12 flex flex-col items-center">
+        <% for (let j = 0; j < postagens.length; j++) { %>
+            <% const userPost = usuarios.find(user => user.id === postagens[j].usuario_id); %>
+            <% if (userPost) { %>
+                <!-- Informações do Usuário -->
+                <div class="flex items-center p-4 bg-white w-full max-w-md text-center shadow-md mb-4">
+                    <img class="w-12 h-12 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">
+                    <h2 class="text-lg font-bold text-gray-800"><%= userPost.nome %></h2>
                 </div>
 
-                <!-- Respostas -->
-                <div class="mt-6">
-                    <h3 class="text-lg font-bold mb-2">Respostas</h3>
-                    <% for (let x = 0; x < resposta.length; x++) { 
-                        if (postagens[j].id_post == resposta[x].postagem_id) { %>
-                            <div class="bg-gray-100 p-3 rounded-lg mb-2 shadow-sm">
-                                <p class="text-gray-800"><%= resposta[x].conteudo %></p>
-                            </div>
-                        <% } %>
-                    <% } %>
+                <!-- Postagem -->
+                <div class="w-full max-w-md rounded-lg overflow-hidden shadow-lg bg-white mb-6">
+                    <img class="w-full h-48 object-cover" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
+                    <div class="p-4">
+                        <p class="text-gray-700 text-base mb-4">
+                            <%= postagens[j].descricao %>
+                        </p>
+
+                        <!-- Ícones e Nomes (Responder e Desafiar) -->
+                        <div class="flex justify-around items-center mt-4 space-x-4">
+                            <form action="resposta/cadastro" method="POST" class="flex items-center space-x-2">
+                                <input type="hidden" name="postagem_id" value="<%= postagens[j].id_post %>">
+                                <button type="submit" class="text-gray-500 hover:text-red-500 flex items-center space-x-1">
+                                    <i class="fas fa-comment-alt fa-2x"></i>
+                                    <span class="text-lg">Responder</span>
+                                </button>
+                            </form>
+
+                            <% if (userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
+                                <a href="#" class="text-gray-500 hover:text-red-500 flex items-center space-x-1">
+                                    <i class="fas fa-fist-raised fa-2x"></i>
+                                    <span class="text-lg">Desafiar</span>
+                                </a>
+                            <% } %>
+                        </div>
+
+                        <!-- Respostas -->
+                        <div class="mt-6">
+                            <h3 class="text-lg font-bold mb-2">Respostas</h3>
+                            <% for (let x = 0; x < resposta.length; x++) { 
+                                if (postagens[j].id_post == resposta[x].postagem_id) { 
+                                    const responderUser = usuarios.find(user => user.id === resposta[x].usuario_id); %>
+                                    <div class="flex items-start bg-gray-100 p-3 rounded-lg mb-2 shadow-sm">
+                                        <img class="w-10 h-10 rounded-full mr-3" src="/imagens/<%= responderUser.img %>" alt="User Avatar">
+                                        <div>
+                                            <p class="text-gray-800 font-bold"><%= responderUser.nome %></p>
+                                            <p class="text-gray-700"><%= resposta[x].conteudo %></p>
+                                        </div>
+                                    </div>
+                                <% } 
+                            } %>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    <% } %>
-  <% } %>
+            <% } %>
+        <% } %>
+    </div>
 </div>
