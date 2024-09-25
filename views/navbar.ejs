@@ -6,7 +6,6 @@
   <title>Navbar</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
-    
     .logo-default {
       display: block;
     }
@@ -48,7 +47,7 @@
               <a href="forum" class="hover:bg-gray-200 p-2 rounded">Fórum</a>
               <a href="cadastroEvento" class="hover:bg-gray-200 p-2 rounded">Cadastrar Eventos</a>
               <a href="perfil" class="hover:bg-gray-200 p-2 rounded">Perfil</a>
-              <a href="logout" class="hover:bg-gray-200 p-2 rounded">Logout</a>
+              <a href="#" class="hover:bg-gray-200 p-2 rounded" onclick="confirmLogout(event)">Sair</a>
             <% } else { %>
               <a href="cadastro" class="hover:bg-gray-200 p-2 rounded">Cadastro</a>
               <a href="login" class="hover:bg-gray-200 p-2 rounded">Login</a>
@@ -60,15 +59,21 @@
       <!-- Links de Navegação -->
       <div class="hidden lg:flex lg:space-x-4 items-center">
         <% if (logado) { %> 
-
-        <%   console.log('usuarioAtual: ' + usuarioAtual)
-        {%> <% } %>
-
-          <a href="forum" class="hover:text-black">Fórum</a>
-          <a href="cadastroEvento" class="hover:text-black">Cadastrar Eventos</a>
-          <a href="perfil" class="hover:text-black">Perfil</a>
-          <a href="logout" class="hover:text-black">Logout</a>
-          <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= usuarioAtual.img %>">        <% } else { %>
+          <div class="relative">
+            <button id="user-menu-btn" class="flex items-center focus:outline-none">
+              <a href="forum" class="hover:text-black p-2 font-bold font-sans rounded">Fórum</a>
+                <a href="cadastroEvento" class="hover:text-black font-bold p-2 rounded font-sans">Cadastrar Eventos</a>
+              <img class="w-16 h-16 rounded-full mr-4" src="/imagens/<%= usuarioAtual.img %>">
+            </button>
+            <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white text-black rounded-lg shadow-lg z-50">
+              <div class="flex flex-col p-2">
+                
+                <a href="perfil" class="hover:bg-gray-200 p-2 rounded">Perfil</a>
+                <a href="#" class="hover:bg-gray-200 p-2 rounded" onclick="confirmLogout(event)">Sair</a>
+              </div>
+            </div>
+          </div>
+        <% } else { %>
           <a href="cadastro" class="hover:text-black">Cadastro</a>
           <a href="login" class="hover:text-black">Login</a>
         <% } %>
@@ -79,9 +84,35 @@
   <script>
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const mobileMenu = document.getElementById('mobile-menu');
-    
+    const userMenuBtn = document.getElementById('user-menu-btn');
+    const userMenu = document.getElementById('user-menu');
+
+    // Função para mostrar/esconder o menu ao clicar na imagem do usuário
     hamburgerBtn.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
+    });
+
+    // Função para mostrar/esconder o menu do usuário
+    userMenuBtn.addEventListener('click', () => {
+      userMenu.classList.toggle('hidden');
+    });
+
+    // Função para confirmar logout
+    function confirmLogout(event) {
+      event.preventDefault(); // Impede o comportamento padrão do link
+      if (confirm("Você realmente deseja sair?")) {
+        window.location.href = "logout"; // Redireciona para a página de logout se confirmado
+      }
+    }
+
+    // Fechar os menus se clicar fora deles
+    window.addEventListener('click', (event) => {
+      if (!hamburgerBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
+        mobileMenu.classList.add('hidden');
+      }
+      if (!userMenuBtn.contains(event.target) && !userMenu.contains(event.target)) {
+        userMenu.classList.add('hidden');
+      }
     });
   </script>
 </body>

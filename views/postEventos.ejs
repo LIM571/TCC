@@ -8,18 +8,18 @@
                     <div class="border-r-8 expanded-card w-full rounded overflow-hidden shadow-2xl border bg-white border-white flex hidden z-10"
                         data-id="<%= eventos[i].id %>">
                         <!-- Imagem à esquerda com tamanho um pouco reduzido -->
-                        <img class="w-1/3 h-full object-cover" src="/imagens/<%= eventos[i].midia %>"
+                        <img class="w-1/3 h-64 object-cover" src="/imagens/<%= eventos[i].midia %>"
                             alt="Imagem do evento <%= eventos[i].nome_evento %>" />
 
                         <!-- Informações do evento à direita -->
                         <div class="flex-grow p-6">
                             <!-- Título do evento -->
-                            <div class="font-bold text-black text-2xl mb-3">
+                            <div class="font-bold text-black text-3xl mb-3">
                                 <%= eventos[i].nome_evento %>
                             </div>
 
                             <!-- Descrição do evento, com alinhamento à esquerda -->
-                            <p class="text-gray-700 text-base mb-3 text-left">
+                            <p class="text-gray-700 text-lg mb-3 text-left">
                                 <%= eventos[i].descricao_evento %>
                             </p>
 
@@ -70,20 +70,20 @@
         <% for (let i=0; i < eventos.length; i++) { %>
             <div class="card bg-white rounded shadow-lg mx-2 my-4 w-80 transition-transform duration-300 hover:translate-y-[-0.5rem] hover:shadow-red-500"
                 data-id="<%= eventos[i].id %>">
-                <div class="p-4 text-sm relative text-left">
+                <div class="p-6 text-sm relative text-left">
                     <!-- Título do evento -->
-                    <h1 class="text-base font-bold">
+                    <h1 class="text-lg font-bold mb-2">
                         <%= eventos[i].nome_evento %>
                     </h1>
 
                     <!-- Imagem do evento -->
-                    <img class="w-72 h-56 object-cover" src="/imagens/<%= eventos[i].midia %>"
+                    <img class="w-full h-48 object-cover rounded mb-4" src="/imagens/<%= eventos[i].midia %>"
                         alt="Imagem do evento <%= eventos[i].nome_evento %>" />
 
                     <!-- Descrição do evento -->
-                    <div class="overflow-hidden max-h-24">
-                        <p class="truncate text-left">
-                            <%= eventos[i].descricao_evento %>
+                    <div class="overflow-hidden max-h-20 mb-4">
+                        <p class="text-left text-base">
+                            <%= eventos[i].descricao_evento.length > 100 ? eventos[i].descricao_evento.substring(0, 100) + '...' : eventos[i].descricao_evento %>
                         </p>
                     </div>
 

@@ -30,15 +30,15 @@
                         <div class="flex justify-around items-center mt-4 space-x-4">
                             <form action="resposta/cadastro" method="POST" class="flex items-center space-x-2">
                                 <input type="hidden" name="postagem_id" value="<%= postagens[j].id_post %>">
-                                <button type="submit" class="text-gray-500 hover:text-red-500 flex items-center space-x-1">
-                                    <i class="fas fa-comment-alt fa-2x"></i>
+                                <button type="submit" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
+                                    <i class="fas fa-comment-alt fa-lg"></i>
                                     <span class="text-lg">Responder</span>
                                 </button>
                             </form>
 
                             <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
-                                <a href="#" class="text-gray-500 hover:text-red-500 flex items-center space-x-1">
-                                    <i class="fas fa-fist-raised fa-2x"></i>
+                                <a href="#" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
+                                    <i class="fas fa-fist-raised fa-lg"></i>
                                     <span class="text-lg">Desafiar</span>
                                 </a>
                             <% } %>
@@ -47,7 +47,7 @@
                         <!-- Respostas -->
                         <div class="mt-6">
                             <h3 class="text-lg font-bold mb-2">Respostas</h3>
-                            <div class="comentarios-list" id="comentarios-<%= postagens[j].id_post %>">
+                            <div class="comentarios-list hidden" id="comentarios-<%= postagens[j].id_post %>">
                                 <% let displayedComments = 0; %>
                                 <% for (let x = 0; x < resposta.length; x++) { 
                                     if (postagens[j].id_post == resposta[x].postagem_id) { 
@@ -65,17 +65,27 @@
                                 } %>
                             </div>
 
-                            <!-- Botões Mostrar Mais e Mostrar Menos -->
-                            <% if (displayedComments >= 5) { %>
-                                <div class="flex space-x-2">
-                                    <button class="mostrar-mais text-blue-500" data-postagem-id="<%= postagens[j].id_post %>" data-display-count="<%= displayedComments %>">
-                                        Mostrar Mais
-                                    </button>
-                                    <button class="mostrar-menos text-blue-500 hidden" data-postagem-id="<%= postagens[j].id_post %>">
-                                        Mostrar Menos
-                                    </button>
-                                </div>
-                            <% } %>
+                            <!-- Botões Mostrar Comentários e Não Mostrar -->
+                            <div class="flex space-x-2">
+                                <button class="mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded" data-postagem-id="<%= postagens[j].id_post %>">
+                                    Mostrar Comentários
+                                </button>
+                                
+                                <button class="nao-mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
+                                    Não Mostrar
+                                </button>
+                            </div>
+                            
+                           <!-- Botões Mostrar Mais e Mostrar Menos -->
+                           <div class="flex space-x-2 hidden" id="show-more-less-<%= postagens[j].id_post %>">
+                            <button class="mostrar-mais bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded" data-postagem-id="<%= postagens[j].id_post %>" data-display-count="<%= displayedComments %>">
+                                Mostrar Mais
+                            </button>
+                            <button class="mostrar-menos bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
+                                Mostrar Menos
+                            </button>
+                        </div>
+
                         </div>
                     </div>
                 </div>
@@ -85,6 +95,28 @@
 </div>
 
 <script>
+    document.querySelectorAll('.mostrar-comentarios').forEach(button => {
+        button.addEventListener('click', function() {
+            const postagemId = this.dataset.postagemId;
+            const comentariosList = document.getElementById(`comentarios-${postagemId}`);
+            comentariosList.classList.remove('hidden'); // Mostra os comentários
+            this.style.display = 'none'; // Oculta o botão "Mostrar Comentários"
+            document.querySelector(`.nao-mostrar-comentarios[data-postagem-id='${postagemId}']`).classList.remove('hidden'); // Mostra o botão "Não Mostrar"
+            document.getElementById(`show-more-less-${postagemId}`).classList.remove('hidden'); // Mostra os botões "Mostrar Mais" e "Mostrar Menos"
+        });
+    });
+
+    document.querySelectorAll('.nao-mostrar-comentarios').forEach(button => {
+        button.addEventListener('click', function() {
+            const postagemId = this.dataset.postagemId;
+            const comentariosList = document.getElementById(`comentarios-${postagemId}`);
+            comentariosList.classList.add('hidden'); // Oculta os comentários
+            this.style.display = 'none'; // Oculta o botão "Não Mostrar"
+            document.querySelector(`.mostrar-comentarios[data-postagem-id='${postagemId}']`).style.display = 'inline'; // Mostra o botão "Mostrar Comentários"
+            document.getElementById(`show-more-less-${postagemId}`).classList.add('hidden'); // Oculta os botões "Mostrar Mais" e "Mostrar Menos"
+        });
+    });
+
     document.querySelectorAll('.mostrar-mais').forEach(button => {
         button.addEventListener('click', function() {
             const postagemId = this.dataset.postagemId;
@@ -129,18 +161,17 @@
         button.addEventListener('click', function() {
             const postagemId = this.dataset.postagemId;
             const comentariosList = document.getElementById(`comentarios-${postagemId}`);
-            const allComments = comentariosList.children;
+            const comentarios = comentariosList.children;
 
-            // Oculta todos os comentários além dos primeiros 5
-            for (let i = 5; i < allComments.length; i++) {
-                allComments[i].style.display = 'none';
+            // Remove os últimos 5 comentários
+            for (let i = 0; i < 5 && comentarios.length > 0; i++) {
+                comentarios[comentarios.length - 1].remove();
             }
 
-            // Atualiza o botão "Mostrar Menos"
-            this.classList.add('hidden');
-            const mostrarMaisButton = document.querySelector(`.mostrar-mais[data-postagem-id='${postagemId}']`);
-            mostrarMaisButton.style.display = 'block';
-            mostrarMaisButton.dataset.displayCount = '5'; // Reseta a contagem
+            // Se não houver mais comentários, oculta o botão "Mostrar Menos"
+            if (comentarios.length <= 5) {
+                this.style.display = 'none';
+            }
         });
     });
 </script>
