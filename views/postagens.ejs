@@ -1,11 +1,31 @@
 <style>
     a {
-    font-family: roboto;
+        font-family: Roboto, sans-serif;
+    }
+
+    /* Estilo personalizado para centralizar os botões */
+    .center-buttons {
+        justify-content: center;
+    }
+
+    /* Margem inferior para espaçamento entre postagens */
+    .post-margin {
+        margin-bottom: 1.5rem;
     }
 </style>
 
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> 
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Notificação de desafio -->
+    <div id="desafios-recentes" class="hidden bg-gray-800 text-white p-6 rounded-lg shadow-lg mb-6 max-w-xl mx-auto">
+        <h3 class="text-xl font-bold mb-4 text-red-500">Desafios Recentes</h3>
+        <ul id="lista-desafios" class="space-y-3">
+            <!-- Desafios vão aparecer aqui -->
+        </ul>
+    </div>
+    
+    
 
 <div class="flex p-6 space-x-6">
     <!-- Tópicos -->
@@ -13,19 +33,21 @@
         <%- include('topico') %>
     </div>
 
+   
+
     <!-- Postagens -->
     <div class="w-9/12 flex flex-col items-center">
         <% for (let j = 0; j < postagens.length; j++) { %>
             <% const userPost = usuarios.find(user => user.id === postagens[j].usuario_id); %>
             <% if (userPost) { %>
                 <!-- Informações do Usuário -->
-                <div class="flex items-center p-4 bg-white w-full max-w-md text-center shadow-md">
+                <div class="flex items-center p-4 bg-white w-full max-w-md text-center shadow-md post-margin rounded-lg">
                     <img class="w-12 h-12 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">
                     <h2 class="text-lg font-bold text-gray-800"><%= userPost.nome %></h2>
                 </div>
 
                 <!-- Postagem -->
-                <div class="w-full max-w-md rounded-lg overflow-hidden shadow-lg bg-white mb-6">
+                <div class="w-full max-w-md rounded-lg overflow-hidden shadow-lg bg-white post-margin">
                     <img class="w-full h-48 object-cover" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
                     <div class="p-4">
                         <p class="text-gray-700 text-base mb-4">
@@ -33,7 +55,8 @@
                         </p>
 
                         <!-- Ícones e Nomes (Responder e Desafiar) -->
-                        <div class="flex justify-around items-center mt-4 space-x-4">
+                        <div class="flex center-buttons space-x-4 mt-4">
+                            <!-- Botão Responder -->
                             <form action="resposta/cadastro" method="POST" class="flex items-center space-x-2">
                                 <input type="hidden" name="postagem_id" value="<%= postagens[j].id_post %>">
                                 <button type="submit" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
@@ -41,19 +64,19 @@
                                     <span class="text-lg">Responder</span>
                                 </button>
                             </form>
-                        <!-- Desafiar -->
 
-                        <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
-                            <form action="/desafio" method="POST" class="flex items-center space-x-2">
-                                <input type="hidden" name="usuario_desafiante" value="<%= usuarioAtual.id %>">
-                                <input type="hidden" name="usuario_desafiado" value="<%= userPost.id %>">
-                                <button type="submit" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
-                                    <i class="fas fa-fist-raised fa-lg"></i>
-                                    <span class="text-lg">Desafiar</span>
-                                </button>
-                            </form>
-                        <% } %>
-                        
+                            <!-- Botão Desafiar (Aparece apenas se for possível desafiar) -->
+                            <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
+                                <form action="/desafio" method="POST" class="flex items-center space-x-2">
+                                    <input type="hidden" name="usuario_desafiante" value="<%= usuarioAtual.id %>">
+                                    <input type="hidden" name="usuario_desafiado" value="<%= userPost.id %>">
+                                    <button type="submit" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
+                                        <i class="fas fa-fist-raised fa-lg"></i>
+                                        <span class="text-lg">Desafiar</span>
+                                    </button>
+                                </form>
+                            <% } %>
+                        </div>
 
                         <!-- Respostas -->
                         <div class="mt-6">
@@ -76,29 +99,25 @@
                                 } %>
                             </div>
 
-                            <!-- Botões Mostrar Comentários e Não Mostrar -->
-                            <div class="flex space-x-2">
+                            <!-- Botões Mostrar Comentários -->
+                            <div class="flex justify-center space-x-2 mt-4">
                                 <button class="mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded" data-postagem-id="<%= postagens[j].id_post %>">
                                     Mostrar Comentários
                                 </button>
-                                
-                               
                             </div>
-                            
-                           <!-- Botões Mostrar Mais e Mostrar Menos -->
-                           <div class="flex space-x-2 hidden" id="show-more-less-<%= postagens[j].id_post %>">
-                            <button class="mostrar-mais bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded" data-postagem-id="<%= postagens[j].id_post %>" data-display-count="<%= displayedComments %>">
-                                Mostrar Mais
-                            </button>
-                            <button class="mostrar-menos bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
-                                Mostrar Menos
-                            </button>
-                            <button class="nao-mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
-                                Não Mostrar
-                            </button>
 
-                        </div>
-
+                            <!-- Botões Mostrar Mais e Mostrar Menos -->
+                            <div class="flex justify-center space-x-2 hidden" id="show-more-less-<%= postagens[j].id_post %>">
+                                <button class="mostrar-mais bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded" data-postagem-id="<%= postagens[j].id_post %>" data-display-count="<%= displayedComments %>">
+                                    Mostrar Mais
+                                </button>
+                                <button class="mostrar-menos bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
+                                    Mostrar Menos
+                                </button>
+                                <button class="nao-mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
+                                    Não Mostrar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -107,7 +126,29 @@
     </div>
 </div>
 
+ 
+
 <script>
+
+            // Faz uma requisição para buscar os desafios recentes
+            fetch('/desafio/recentes')
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    const listaDesafios = document.getElementById('lista-desafios');
+                    data.forEach(desafio => {
+                        const li = document.createElement('li');
+                        li.textContent = desafio;
+                        listaDesafios.appendChild(li);
+                    });
+
+                    // Mostra a div de desafios recentes
+                    document.getElementById('desafios-recentes').classList.remove('hidden');
+                }
+            });
+
+
+
     document.querySelectorAll('.mostrar-comentarios').forEach(button => {
         button.addEventListener('click', function() {
             const postagemId = this.dataset.postagemId;
