@@ -8,6 +8,8 @@ const Evento = require('./model/evento');
 const Postagem = require('./model/postagens'); 
 const Usr = require('./model/Usuario')
 const Respostas = require('./model/Respostas')
+const Desafiar = require('./model/Desafiar');
+
 const database = require('./db')
 
 app.use(session({
@@ -54,6 +56,10 @@ app.use('/home', authenticationMiddleware, home);
 
 const topicosRouter = require('./routes/topicos');
 app.use('/forum/topicos', authenticationMiddleware, topicosRouter);
+
+const desafioRoutes = require('./routes/desafio'); // ajuste o caminho conforme sua estrutura
+app.use('/desafios', desafioRoutes);
+
 
 const editar = require('./routes/editar');
 app.use('/editar', authenticationMiddleware, editar);
