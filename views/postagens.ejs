@@ -1,3 +1,9 @@
+<style>
+    a {
+    font-family: roboto;
+    }
+</style>
+
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -71,9 +77,7 @@
                                     Mostrar Comentários
                                 </button>
                                 
-                                <button class="nao-mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
-                                    Não Mostrar
-                                </button>
+                               
                             </div>
                             
                            <!-- Botões Mostrar Mais e Mostrar Menos -->
@@ -84,6 +88,10 @@
                             <button class="mostrar-menos bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
                                 Mostrar Menos
                             </button>
+                            <button class="nao-mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
+                                Não Mostrar
+                            </button>
+
                         </div>
 
                         </div>
