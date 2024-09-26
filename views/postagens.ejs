@@ -41,14 +41,19 @@
                                     <span class="text-lg">Responder</span>
                                 </button>
                             </form>
+                        <!-- Desafiar -->
 
-                            <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
-                                <a href="#" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
+                        <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
+                            <form action="/desafio" method="POST" class="flex items-center space-x-2">
+                                <input type="hidden" name="usuario_desafiante" value="<%= usuarioAtual.id %>">
+                                <input type="hidden" name="usuario_desafiado" value="<%= userPost.id %>">
+                                <button type="submit" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
                                     <i class="fas fa-fist-raised fa-lg"></i>
                                     <span class="text-lg">Desafiar</span>
-                                </a>
-                            <% } %>
-                        </div>
+                                </button>
+                            </form>
+                        <% } %>
+                        
 
                         <!-- Respostas -->
                         <div class="mt-6">

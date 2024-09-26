@@ -3,6 +3,8 @@ const Usuario = require('../model/Usuario');
 const Postagem = require('../model/postagens');
 const Resposta = require('../model/Respostas');
 const Topico = require('../model/topico');
+const Desafio = require('../model/Desafiar'); // Importe o modelo de Desafio
+
 
 const router = express.Router();
 
@@ -13,10 +15,12 @@ router.get('/', async (req, res) => {
         const usuarios = await Usuario.findAll();
         const postagens = await Postagem.findAll();
         const resposta = await Resposta.findAll();
+        const desafio = await Desafio.findAll();
+
         const usuarioAtual = req.user;
 
         // Renderizar a página de fórum com os dados
-        res.render('forum', { usuarios, postagens, usuarioAtual, resposta, topicos });
+        res.render('forum', { usuarios, postagens, usuarioAtual, resposta, topicos, desafio });
     } catch (error) {
         console.error(error);
         res.status(500).send('Erro ao carregar o fórum');
@@ -30,6 +34,7 @@ router.get('/:id', async (req, res) => {
         const topico = await Topico.findByPk(topicoId);
         const usuarios = await Usuario.findAll();
         const resposta = await Resposta.findAll();
+        const desafio = await desafio.findAll();
         const postagens = await Postagem.findAll({
             where: { id_topico: topicoId }
         });

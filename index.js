@@ -58,7 +58,7 @@ const topicosRouter = require('./routes/topicos');
 app.use('/forum/topicos', authenticationMiddleware, topicosRouter);
 
 const desafioRoutes = require('./routes/desafio'); // ajuste o caminho conforme sua estrutura
-app.use('/desafios', desafioRoutes);
+app.use('/desafio', desafioRoutes);
 
 
 const editar = require('./routes/editar');
