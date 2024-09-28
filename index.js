@@ -61,6 +61,7 @@ const desafioRoutes = require('./routes/desafio'); // ajuste o caminho conforme 
 app.use('/desafio', desafioRoutes);
 
 
+
 const editar = require('./routes/editar');
 app.use('/editar', authenticationMiddleware, editar);
 

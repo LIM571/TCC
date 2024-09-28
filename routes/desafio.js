@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const router = express.Router();
 const Desafio = require('../model/Desafiar');
 const Usuario = require('../model/Usuario');
@@ -8,9 +9,14 @@ let desafiosRecentes = [];
 
 // Rota para desafiar
 router.post('/', async (req, res) => {
-    const { usuario_desafiante, usuario_desafiado } = req.body;
+    const { usuario_desafiante, usuario_desafiado, id_postagem } = req.body;
 
     try {
+        // Verifique se o campo id_postagem foi fornecido
+        if (!id_postagem) {
+            return res.status(400).send('O campo id_postagem é obrigatório');
+        }
+
         // Busque os nomes dos lutadores (desafiante e desafiado) pelos seus IDs
         const desafiante = await Usuario.findByPk(usuario_desafiante);
         const desafiado = await Usuario.findByPk(usuario_desafiado);
@@ -20,10 +26,11 @@ router.post('/', async (req, res) => {
             return res.status(404).send('Usuário não encontrado');
         }
 
-        // Cria o novo desafio
+        // Cria o novo desafio com o id_postagem
         const novoDesafio = await Desafio.create({
             usuario_desafiante: usuario_desafiante,
-            usuario_desafiado: usuario_desafiado
+            usuario_desafiado: usuario_desafiado,
+            id_postagem: id_postagem // Agora estamos passando o id da postagem
         });
 
         // Armazena o desafio recente
@@ -36,6 +43,35 @@ router.post('/', async (req, res) => {
         res.status(500).send('Erro ao criar desafio');
     }
 });
+
+
+// Exemplo de como deveria ser a rota para resposta ao desafio
+router.post('/resposta', async (req, res) => {
+    const { desafio_id, resposta } = req.body;
+
+    try {
+        if (typeof desafio_id === 'undefined' || typeof resposta === 'undefined') {
+            console.error('Erro: desafio_id ou resposta não definidos');
+            return res.status(400).send('Dados não fornecidos corretamente');
+        }
+
+        if (resposta === 'aceitar') {
+            await Desafio.update({ estado: 'aceito' }, { where: { id_desafio: desafio_id } });
+            res.send('Desafio aceito!');
+        } else if (resposta === 'negar') {
+            await Desafio.update({ estado: 'negado' }, { where: { id_desafio: desafio_id } });
+            res.send('Desafio negado!');
+        }
+
+        // Atualiza a lista de desafios recentes
+        desafiosRecentes = desafiosRecentes.filter(desafio => desafio.id_desafio !== desafio_id);
+
+    } catch (error) {
+        console.error('Erro ao processar a resposta do desafio:', error);
+        res.status(500).send('Erro ao processar a resposta do desafio');
+    }
+});
+
 
 // Exporta os desafios recentes
 router.get('/recentes', (req, res) => {

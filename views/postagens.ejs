@@ -17,23 +17,11 @@
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <!-- Notificação de desafio -->
-    <div id="desafios-recentes" class="hidden bg-gray-800 text-white p-6 rounded-lg shadow-lg mb-6 max-w-xl mx-auto">
-        <h3 class="text-xl font-bold mb-4 text-red-500">Desafios Recentes</h3>
-        <ul id="lista-desafios" class="space-y-3">
-            <!-- Desafios vão aparecer aqui -->
-        </ul>
-    </div>
-    
-    
-
 <div class="flex p-6 space-x-6">
     <!-- Tópicos -->
     <div class="w-3/12">
         <%- include('topico') %>
     </div>
-
-   
 
     <!-- Postagens -->
     <div class="w-9/12 flex flex-col items-center">
@@ -67,16 +55,33 @@
 
                             <!-- Botão Desafiar (Aparece apenas se for possível desafiar) -->
                             <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
-                                <form action="/desafio" method="POST" class="flex items-center space-x-2">
+                                <form action="/desafio" method="POST">
                                     <input type="hidden" name="usuario_desafiante" value="<%= usuarioAtual.id %>">
                                     <input type="hidden" name="usuario_desafiado" value="<%= userPost.id %>">
-                                    <button type="submit" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
-                                        <i class="fas fa-fist-raised fa-lg"></i>
-                                        <span class="text-lg">Desafiar</span>
-                                    </button>
+                                    <input type="hidden" name="id_postagem" value="<%= postagens[j].id_post %>"> <!-- Aqui passamos o ID da postagem -->
+                                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-400">Desafiar</button>
                                 </form>
                             <% } %>
                         </div>
+
+                        <!-- Exibe Desafio se existir -->
+                        <% const desafioExistente = desafios.find(d => d.usuario_desafiado === userPost.id && d.id_postagem === postagens[j].id_post); %>
+                        <% if (desafioExistente) { %>
+                            <div class="mt-4 bg-yellow-500 p-4 rounded-lg shadow-lg text-center">
+                                <p class="text-white font-bold">
+                                    <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %> desafiou <%= userPost.nome %>
+                                </p>
+
+                                <!-- Botões de Aceitar ou Negar -->
+                                <% if (usuarioAtual.id === userPost.id) { %>
+                                    <form action="/desafio/resposta" method="POST" class="flex space-x-4 justify-center mt-4">
+                                        <input type="hidden" name="desafio_id" value="<%= desafioExistente.id_desafio %>">
+                                        <button type="submit" name="resposta" value="aceitar" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-400">Aceitar</button>
+                                        <button type="submit" name="resposta" value="negar" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-400">Negar</button>
+                                    </form>
+                                <% } %>
+                            </div>
+                        <% } %>
 
                         <!-- Respostas -->
                         <div class="mt-6">
@@ -117,127 +122,53 @@
                                 <button class="nao-mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
                                     Não Mostrar
                                 </button>
-
-
-                                
-                    
-
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-             
-
             <% } %>
         <% } %>
     </div>
-
-     <!-- Notificação de desafio -->
-     
 </div>
 
-   
 
 <script>
+    // Faz uma requisição para buscar os desafios recentes
+    fetch('/desafio/recentes')
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const listaDesafios = document.getElementById('lista-desafios');
+                data.forEach(desafio => {
+                    const li = document.createElement('li');
+                    li.textContent = desafio;
+                    listaDesafios.appendChild(li);
+                });
 
-            // Faz uma requisição para buscar os desafios recentes
-            fetch('/desafio/recentes')
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    const listaDesafios = document.getElementById('lista-desafios');
-                    data.forEach(desafio => {
-                        const li = document.createElement('li');
-                        li.textContent = desafio;
-                        listaDesafios.appendChild(li);
-                    });
+                // Mostra a div de desafios recentes
+                document.getElementById('desafios-recentes').classList.remove('hidden');
+            }
+        });
 
-                    // Mostra a div de desafios recentes
-                    document.getElementById('desafios-recentes').classList.remove('hidden');
-                }
-            });
-
-
-
+    // Função para mostrar e ocultar comentários
     document.querySelectorAll('.mostrar-comentarios').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const postagemId = this.dataset.postagemId;
             const comentariosList = document.getElementById(`comentarios-${postagemId}`);
             comentariosList.classList.remove('hidden'); // Mostra os comentários
             this.style.display = 'none'; // Oculta o botão "Mostrar Comentários"
             document.querySelector(`.nao-mostrar-comentarios[data-postagem-id='${postagemId}']`).classList.remove('hidden'); // Mostra o botão "Não Mostrar"
-            document.getElementById(`show-more-less-${postagemId}`).classList.remove('hidden'); // Mostra os botões "Mostrar Mais" e "Mostrar Menos"
         });
     });
 
+    // Função para não mostrar comentários
     document.querySelectorAll('.nao-mostrar-comentarios').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const postagemId = this.dataset.postagemId;
             const comentariosList = document.getElementById(`comentarios-${postagemId}`);
             comentariosList.classList.add('hidden'); // Oculta os comentários
-            this.style.display = 'none'; // Oculta o botão "Não Mostrar"
-            document.querySelector(`.mostrar-comentarios[data-postagem-id='${postagemId}']`).style.display = 'inline'; // Mostra o botão "Mostrar Comentários"
-            document.getElementById(`show-more-less-${postagemId}`).classList.add('hidden'); // Oculta os botões "Mostrar Mais" e "Mostrar Menos"
-        });
-    });
-
-    document.querySelectorAll('.mostrar-mais').forEach(button => {
-        button.addEventListener('click', function() {
-            const postagemId = this.dataset.postagemId;
-            const comentariosList = document.getElementById(`comentarios-${postagemId}`);
-            const respostas = <%- JSON.stringify(resposta) %>;
-            const usuariosList = <%- JSON.stringify(usuarios) %>;
-            const currentDisplayCount = parseInt(this.dataset.displayCount);
-            let count = 0;
-
-            for (let x = 0; x < respostas.length; x++) {
-                if (respostas[x].postagem_id == postagemId && count < 10) {
-                    if (currentDisplayCount <= x) {
-                        const user = usuariosList.find(user => user.id === respostas[x].usuario_id);
-                        const newComment = `
-                            <div class="flex items-start bg-gray-100 p-3 rounded-lg mb-2 shadow-sm">
-                                <img class="w-10 h-10 rounded-full mr-3" src="/imagens/${user.img}" alt="User Avatar">
-                                <div>
-                                    <p class="text-gray-800 font-bold">${user.nome}</p>
-                                    <p class="text-gray-700">${respostas[x].conteudo}</p>
-                                </div>
-                            </div>`;
-                        
-                        comentariosList.insertAdjacentHTML('beforeend', newComment);
-                        count++;
-                    }
-                }
-            }
-
-            // Atualiza a contagem de comentários exibidos
-            this.dataset.displayCount = currentDisplayCount + count;
-
-            // Se não houver mais comentários, oculta o botão "Mostrar Mais"
-            if (count < 10) {
-                this.style.display = 'none';
-            }
-            // Mostra o botão "Mostrar Menos"
-            document.querySelector(`.mostrar-menos[data-postagem-id='${postagemId}']`).classList.remove('hidden');
-        });
-    });
-
-    document.querySelectorAll('.mostrar-menos').forEach(button => {
-        button.addEventListener('click', function() {
-            const postagemId = this.dataset.postagemId;
-            const comentariosList = document.getElementById(`comentarios-${postagemId}`);
-            const comentarios = comentariosList.children;
-
-            // Remove os últimos 5 comentários
-            for (let i = 0; i < 5 && comentarios.length > 0; i++) {
-                comentarios[comentarios.length - 1].remove();
-            }
-
-            // Se não houver mais comentários, oculta o botão "Mostrar Menos"
-            if (comentarios.length <= 5) {
-                this.style.display = 'none';
-            }
+            this.classList.add('hidden'); // Oculta o botão "Não Mostrar"
+            document.querySelector(`.mostrar-comentarios[data-postagem-id='${postagemId}']`).style.display = 'inline-block'; // Mostra o botão "Mostrar Comentários"
         });
     });
 </script>

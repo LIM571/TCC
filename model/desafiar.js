@@ -1,7 +1,10 @@
 const database = require('../db');
+const express = require('express');
+const app = express();
 const Sequelize = require('sequelize');
 const Usuario = require('./Usuario');
-const Postagem = require('./postagens'); // Importar a model de postagens
+const Postagem = require('./postagens'); 
+
 
 const Desafio = database.define('desafios', {
   id_desafio: {
@@ -14,7 +17,7 @@ const Desafio = database.define('desafios', {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: Usuario, // Referência ao modelo Usuario
+      model: Usuario, 
       key: 'id'
     }
   },
@@ -22,23 +25,47 @@ const Desafio = database.define('desafios', {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: Usuario, // Referência ao modelo Usuario
+      model: Usuario, 
       key: 'id'
     }
   },
   estado: {
-    type: Sequelize.STRING, // Novo campo 'estado'
-    allowNull: false // Define se pode ser nulo ou não
+    type: Sequelize.STRING,
+    allowNull: false,
+    defaultValue: 'pendente'  // Estado inicial é "pendente"
   },
   id_postagem: {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
-      model: Postagem, // Referência ao modelo de Postagens
+      model: Postagem, 
       key: 'id_post'
     }
   }
 });
 
-// Exporta o modelo
+// Rota para aceitar o desafio
+app.post('/desafio/aceitar', async (req, res) => {
+  const { desafio_id } = req.body;
+  try {
+    await Desafio.update({ estado: 'aceito' }, { where: { id_desafio: desafio_id } });
+    res.redirect('/forum'); // Redireciona para o fórum
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erro ao aceitar o desafio');
+  }
+});
+
+// Rota para negar o desafio
+app.post('/desafio/negar', async (req, res) => {
+  const { desafio_id } = req.body;
+  try {
+    await Desafio.update({ estado: 'negado' }, { where: { id_desafio: desafio_id } });
+    res.redirect('/forum');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erro ao negar o desafio');
+  }
+});
+
 module.exports = Desafio;

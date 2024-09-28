@@ -15,12 +15,12 @@ router.get('/', async (req, res) => {
         const usuarios = await Usuario.findAll();
         const postagens = await Postagem.findAll();
         const resposta = await Resposta.findAll();
-        const desafio = await Desafio.findAll();
+        const desafios = await Desafio.findAll();
 
         const usuarioAtual = req.user;
 
         // Renderizar a página de fórum com os dados
-        res.render('forum', { usuarios, postagens, usuarioAtual, resposta, topicos, desafio });
+        res.render('forum', { usuarios, postagens, usuarioAtual, resposta, topicos, desafios });
     } catch (error) {
         console.error(error);
         res.status(500).send('Erro ao carregar o fórum');
@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
         const topico = await Topico.findByPk(topicoId);
         const usuarios = await Usuario.findAll();
         const resposta = await Resposta.findAll();
-        const desafio = await desafio.findAll();
+        const desafios = await Desafio.findAll();
         const postagens = await Postagem.findAll({
             where: { id_topico: topicoId }
         });
@@ -43,7 +43,7 @@ router.get('/:id', async (req, res) => {
         const topicos = await Topico.findAll(); // Adicione isso para garantir que topicos seja passado
 
         // Renderize a página com a variável topicos incluída
-        res.render('forum', { topico, postagens, usuarioAtual, topicos, usuarios, resposta });
+        res.render('forum', { topico, postagens, usuarioAtual, topicos, usuarios, resposta, desafios });
     } catch (error) {
         console.error(error);
         res.status(500).send('Erro ao carregar o tópico');
