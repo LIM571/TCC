@@ -4,7 +4,19 @@ const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const Postagem = require('../model/postagens'); 
+const Postagem = require('../model/postagens');
+const Topico = require('../model/topico');
+
+
+router.get('/cadastroPostagen', async (req, res) => {
+    try {
+        const topicos = await Topico.findAll(); // Carrega todos os tópicos do banco de dados
+        res.render('cadastroPostagen', { topicos }); // Passa os tópicos para a view EJS
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Erro ao carregar os tópicos');
+    }
+});
 
 router.post('/', function (req, res) {
     const form = new formidable.IncomingForm();

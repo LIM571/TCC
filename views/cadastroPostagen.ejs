@@ -1,61 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Postagens</title>
+    <title>Cadastro de Postagem</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        .custom-input {
-            border-radius: 9999px; /* Fully rounded */
-            border: 2px solid #000000; /* Black border */
-            padding: 0.5rem; /* Adjust padding as needed */
-        }
-        .custom-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem;
-            border: 2px solid #000000; /* Black border */
-            border-radius: 9999px; /* Fully rounded */
-        }
-    </style>
-</head>
-<body class="bg-yellow-400">
-    <div class="container mx-auto p-8 text-center">
-        <div class="bg-white rounded-lg shadow-md p-6 inline-block">
-            <h2 class="text-black font-bold mb-4">Fazer postagem</h2>
-            <form action="/cadastroPostagen" method="POST" enctype="multipart/form-data" class="flex items-center space-x-2">
-                <input type="hidden" name="id_postagem" id="id_postagem"> <!-- Campo oculto para o ID da postagem -->
-                
-                <input type="text" name="topico" id="topico" class="custom-input flex-grow" placeholder="tópico">
-                <input type="text" name="descricao" id="descricao" class="custom-input flex-grow" placeholder="Escreva aqui...">
-                
-                <label for="midia" class="custom-button cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                    </svg>
-                    <input type="file" name="midia" id="midia" class="hidden">
-                </label>
-                <button type="submit" name="enviar" id="enviar" class="custom-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                    </svg>
-                </button>
-            </form>
-        </div>
-    </div>
-
     <script>
-        // Função para pegar o ID da postagem da URL
-        function getPostagemId() {
-            const urlParts = window.location.pathname.split('/');
-            const id = urlParts[urlParts.length - 1]; // Obtém o último elemento da URL
-            document.getElementById('id_postagem').value = id; // Define o valor do campo oculto
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
         }
 
-        // Executa a função ao carregar a página
-        window.onload = getPostagemId;
+        function triggerFileInput() {
+            document.getElementById('midia').click();
+        }
     </script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg mt-20 mb-12">
+        <h1 class="text-2xl font-bold text-red-700 mb-4">Cadastro de Postagem</h1>
+        <form action="/cadastroPostagen" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <div class="flex items-center space-x-4">
+                <label for="topico" class="block text-sm font-medium text-gray-300">Escolha um Tópico:</label>
+                <select name="topico" id="topico" class="mt-1 block w-1/2 border-gray-300 rounded-md shadow-sm bg-gray-700 text-gray-300" required>
+                    <% topicos.forEach(topico => { %>
+                        <option value="<%= topico.id %>"><%= topico.titulo %></option>
+                    <% }) %>
+                </select>
+
+                <!-- Ícone para upload de imagem -->
+                <div>
+                    <label for="midia" class="block text-sm font-medium text-gray-300 cursor-pointer" onclick="triggerFileInput()">
+                        <img class="h-8 w-8" src="https://img.icons8.com/?size=100&id=12778&format=png&color=000000" alt=""> <!-- Você pode substituir este ícone por um de sua escolha -->
+                        <div hidden>
+                        </label>
+                        <input type="file" name="midia" id="midia" accept="image/*" onchange="previewImage(event)" hidden class="mt-1 block text-sm text-gray-500" required>
+                    
+                        </div>
+                   </div>
+            </div>
+
+            <div>
+                <label for="descricao" class="block text-sm font-medium text-gray-300">Descrição:</label>
+                <textarea name="descricao" id="descricao" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-gray-700 text-gray-300" required></textarea>
+            </div>
+
+            <img id="imagePreview" src="" alt="Preview da Imagem" class="mt-2 rounded-md shadow-md hidden" />
+
+            <div>
+                <button type="submit" class="w-full bg-red-700 text-white py-2 px-4 rounded-md shadow hover:bg-red-600">Enviar Postagem</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
