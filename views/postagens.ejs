@@ -59,29 +59,41 @@
                                     <input type="hidden" name="usuario_desafiante" value="<%= usuarioAtual.id %>">
                                     <input type="hidden" name="usuario_desafiado" value="<%= userPost.id %>">
                                     <input type="hidden" name="id_postagem" value="<%= postagens[j].id_post %>"> <!-- Aqui passamos o ID da postagem -->
+                                    
                                     <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-400">Desafiar</button>
                                 </form>
                             <% } %>
                         </div>
 
-                        <!-- Exibe Desafio se existir -->
-                        <% const desafioExistente = desafios.find(d => d.usuario_desafiado === userPost.id && d.id_postagem === postagens[j].id_post); %>
-                        <% if (desafioExistente) { %>
-                            <div class="mt-4 bg-yellow-500 p-4 rounded-lg shadow-lg text-center">
-                                <p class="text-white font-bold">
-                                    <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %> desafiou <%= userPost.nome %>
-                                </p>
+                    <!-- Exibe Desafio se existir -->
+<% const desafioExistente = desafios.find(d => d.usuario_desafiado === userPost.id && d.id_postagem === postagens[j].id_post); %>
+<% if (desafioExistente) { %>
+    <div class="mt-4 bg-yellow-500 p-4 rounded-lg shadow-lg text-center">
+        <p class="text-white font-bold">
+            <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %> desafiou <%= userPost.nome %>
+        </p>
 
-                                <!-- Botões de Aceitar ou Negar -->
-                                <% if (usuarioAtual.id === userPost.id) { %>
-                                    <form action="/desafio/resposta" method="POST" class="flex space-x-4 justify-center mt-4">
-                                        <input type="hidden" name="desafio_id" value="<%= desafioExistente.id_desafio %>">
-                                        <button type="submit" name="resposta" value="aceitar" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-400">Aceitar</button>
-                                        <button type="submit" name="resposta" value="negar" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-400">Negar</button>
-                                    </form>
-                                <% } %>
-                            </div>
-                        <% } %>
+        <!-- Botões de Aceitar ou Recusar -->
+        <% if (usuarioAtual.id === userPost.id) { %>
+            <form action="/desafio/resposta" method="POST">
+                <input type="hidden" name="desafio_id" value="<%= desafioExistente.id_desafio %>">
+                <button type="submit" name="resposta" value="aceitar" class="bg-green-500 text-white py-1 px-3 rounded">Aceitar</button>
+                <button type="submit" name="resposta" value="negar" class="bg-red-500 text-white py-1 px-3 rounded">Negar</button>
+            </form>
+        <% } %>
+    </div>
+
+    <!-- Exibir resultado do desafio -->
+    <% if (desafioExistente.estado) { %>
+        <div class="mt-2">
+            <p class="text-green-600 font-bold">
+                O usuário <%= userPost.nome %> <%= desafioExistente.estado === 'aceito' ? 'aceitou' : 'recusou' %> o desafio do usuário <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %>.
+            </p>
+        </div>
+    <% } %>
+    
+<% } %>
+
 
                         <!-- Respostas -->
                         <div class="mt-6">
@@ -131,7 +143,6 @@
     </div>
 </div>
 
-
 <script>
     // Faz uma requisição para buscar os desafios recentes
     fetch('/desafio/recentes')
@@ -157,18 +168,52 @@
             const comentariosList = document.getElementById(`comentarios-${postagemId}`);
             comentariosList.classList.remove('hidden'); // Mostra os comentários
             this.style.display = 'none'; // Oculta o botão "Mostrar Comentários"
-            document.querySelector(`.nao-mostrar-comentarios[data-postagem-id='${postagemId}']`).classList.remove('hidden'); // Mostra o botão "Não Mostrar"
+
+            const showMoreLess = document.getElementById(`show-more-less-${postagemId}`);
+            showMoreLess.classList.remove('hidden'); // Mostra os botões de mais e menos
         });
     });
 
-    // Função para não mostrar comentários
+    // Função para mostrar mais ou menos comentários
+    document.querySelectorAll('.mostrar-mais').forEach(button => {
+        button.addEventListener('click', function () {
+            const postagemId = this.dataset.postagemId;
+            const comentariosList = document.getElementById(`comentarios-${postagemId}`);
+            const displayCount = parseInt(this.dataset.displayCount);
+
+            const totalComments = comentariosList.children.length; // Total de comentários
+
+            for (let i = displayCount; i < displayCount + 5 && i < totalComments; i++) {
+                comentariosList.children[i].style.display = 'block'; // Mostra os comentários
+            }
+
+            this.dataset.displayCount = displayCount + 5; // Atualiza o contador
+        });
+    });
+
+    // Função para mostrar menos comentários
+    document.querySelectorAll('.mostrar-menos').forEach(button => {
+        button.addEventListener('click', function () {
+            const postagemId = this.dataset.postagemId;
+            const comentariosList = document.getElementById(`comentarios-${postagemId}`);
+            const displayCount = parseInt(this.dataset.displayCount);
+
+            for (let i = displayCount - 1; i >= Math.max(displayCount - 5, 0); i--) {
+                comentariosList.children[i].style.display = 'none'; // Oculta os comentários
+            }
+
+            this.dataset.displayCount = displayCount - 5; // Atualiza o contador
+        });
+    });
+
+    // Função para ocultar comentários
     document.querySelectorAll('.nao-mostrar-comentarios').forEach(button => {
         button.addEventListener('click', function () {
             const postagemId = this.dataset.postagemId;
             const comentariosList = document.getElementById(`comentarios-${postagemId}`);
             comentariosList.classList.add('hidden'); // Oculta os comentários
-            this.classList.add('hidden'); // Oculta o botão "Não Mostrar"
-            document.querySelector(`.mostrar-comentarios[data-postagem-id='${postagemId}']`).style.display = 'inline-block'; // Mostra o botão "Mostrar Comentários"
+            this.style.display = 'none'; // Oculta o botão "Não Mostrar"
+            document.querySelector(`.mostrar-comentarios[data-postagem-id="${postagemId}"]`).style.display = 'block'; // Mostra o botão "Mostrar Comentários"
         });
     });
 </script>

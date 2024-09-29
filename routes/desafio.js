@@ -11,6 +11,21 @@ let desafiosRecentes = [];
 router.post('/', async (req, res) => {
     const { usuario_desafiante, usuario_desafiado, id_postagem } = req.body;
 
+     // Verifica se já existe um desafio entre os usuários para a mesma postagem
+    const desafioExistente = await Desafio.findOne({
+        where: {
+            usuario_desafiante,
+            usuario_desafiado,
+            id_postagem
+        }
+    });
+
+    // Se já existir um desafio, retorne uma mensagem de erro
+    if (desafioExistente) {
+        return res.status(400).json({ error: "Você já desafiou este usuário nesta postagem." });
+    }
+
+
     try {
         // Verifique se o campo id_postagem foi fornecido
         if (!id_postagem) {
