@@ -10,7 +10,9 @@ const Usuario = database.define('usuarios', {
   categoria: {type: Sequelize.STRING,allowNull: false},
   senha: {type: Sequelize.STRING,allowNull: false},
   mestre: {type: Sequelize.BOOLEAN,defaultValue: false,allowNull: true},
-  img: {type: Sequelize.STRING,allowNull: false}
+  img: {type: Sequelize.STRING,allowNull: false},
+  tokenConfirmacao: {type: Sequelize.STRING, allowNull: true, // O token será nulo após a confirmação
+},
 });
 
 module.exports = Usuario;
