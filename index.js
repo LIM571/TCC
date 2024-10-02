@@ -9,6 +9,7 @@ const Postagem = require('./model/postagens');
 const Usr = require('./model/Usuario')
 const Respostas = require('./model/Respostas')
 const Desafiar = require('./model/Desafiar');
+const email = require('./emailService');
 
 const database = require('./db')
 
@@ -59,6 +60,8 @@ app.use('/forum/topicos', authenticationMiddleware, topicosRouter);
 
 const desafioRoutes = require('./routes/desafio'); // ajuste o caminho conforme sua estrutura
 app.use('/desafio', desafioRoutes);
+
+
 
 
 

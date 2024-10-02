@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
-const Usuario = require("../model/Usuario");
+const Organizacao = require("../model/Organizacao"); // Modelo de organização
 const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
@@ -11,10 +11,10 @@ const transporter = require('../emailService');
 
 var saltRounds = 10;
 
-// Rota GET para /cadastro
+// Rota GET para /cadastroOrganizacao
 
 router.get('/', (req, res) => {
-    res.render('cadastro');
+    res.render('cadastroOrganizacao'); // Renderiza o formulário de organização
 });
 
 router.post("/", async function (req, res) {
@@ -24,7 +24,7 @@ router.post("/", async function (req, res) {
         form.parse(req, async (err, fields, files) => {
             if (err) {
                 console.error(err);
-                return res.redirect("/cadastro");
+                return res.redirect("/cadastroOrganizacao");
             }
 
             const senha = fields["senha"][0];
@@ -34,14 +34,14 @@ router.post("/", async function (req, res) {
                 fields.email[0].length == 0 &&
                 fields.nome[0].length == 0
             ) {
-                return res.redirect("/cadastro");
+                return res.redirect("/cadastroOrganizacao");
             }
 
-            const existeUser = await Usuario.findOne({
+            const existeOrganizacao = await Organizacao.findOne({
                 where: { email: fields["email"][0] },
             });
-            if (existeUser) {
-                return res.redirect("/cadastro");
+            if (existeOrganizacao) {
+                return res.redirect("/cadastroOrganizacao");
             }
 
             const senhacripto = await bcrypt.hash(senha, saltRounds);
@@ -63,27 +63,23 @@ router.post("/", async function (req, res) {
                 fs.rename(files.imagem[0].filepath, newpath, async function (err) {
                     if (err) {
                         console.error(err);
-                        return res.redirect("/cadastro");
+                        return res.redirect("/cadastroOrganizacao");
                     }
                     console.log("Arquivo de imagem enviado com sucesso");
 
-                    // Criar o usuário no banco de dados
-                    const novoUsuario = await Usuario.create({
+                    // Criar a organização no banco de dados
+                    const novaOrganizacao = await Organizacao.create({
                         nome: fields["nome"][0],
                         senha: senhacripto,
                         email: fields["email"][0],
-                        nome_lutador: fields["nome_lutador"][0],
-                        lvl_profissional: fields["lvl_profissional"][0],
-                        categoria: fields["categoria"][0],
                         img: nomeimg,
-                        mestre: false,  // Por padrão, não é mestre até a confirmação
                     });
 
                     // Enviar e-mail de confirmação
-                    const verificationLink = `http://localhost:3000/confirmar-email?token=${novoUsuario.id}`; // O token pode ser o ID do usuário
+                    const verificationLink = `http://localhost:3000/confirmar-email-organizacao?token=${novaOrganizacao.id}`;
 
                     const mailOptions = {
-                        from: 'seu-email@gmail.com',
+                        from: 'ramuaycontact@gmail.com',
                         to: fields["email"][0],
                         subject: 'Confirme seu email',
                         text: `Olá, clique no link para confirmar seu email: ${verificationLink}`,
@@ -103,10 +99,8 @@ router.post("/", async function (req, res) {
         });
     } catch (err) {
         console.error(err);
-        res.redirect("/cadastro");
+        res.redirect("/cadastroOrganizacao");
     }
 });
-
-
 
 module.exports = router;

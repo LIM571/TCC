@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
-const Evento = require('../model/evento'); // Caminho para o seu modelo
+const Evento = require('../model/evento'); 
 
 router.get('/:id', async function (req, res) {
     const id = req.params.id;

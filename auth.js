@@ -1,6 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const Usuario = require('./model/Usuario'); // Certifique-se de que o caminho está correto
+const Usuario = require('./model/Usuario');
+ // Certifique-se de que o caminho está correto
 
 async function findUser(email) {
     return await Usuario.findOne({ where: { email: email } });

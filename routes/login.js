@@ -11,7 +11,8 @@ router.post('/login', passport.authenticate('local', {
 }));
 
 router.get('/login', (req, res) => {
-    req.session.usuario = ['nome']; // Armazena o nome do usuário na sessão
+    req.session.usuario = ['nome'];
+    req.session.organizacao = ['nome']
     req.session.loggedin = true;
     req.session.username = [0]['nome'];
     if (req.session.loggedin) {

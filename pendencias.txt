@@ -1,16 +1,5 @@
-falta arrumar + de 5 comentarios
-arrumar editacao de img
-arrumar ser necessario img no cadastro
-msg de error
-    em imgs
-    em topcios
-arrumar para adiconar o id do topico automatico
-armazenar o desafiar no banco
+arrumar edicao de img
 redirecior certo pro insta/maps
-deixar as partes do topico menor(parte vermelha no caso)
-no forum/ deixar apenas as opcoes de posts que nao foram cadastratadas em um forum especifico
 nao ser obrigatorio as imgs do forum
-quando apaga a tela fica feia
 qualquer um consegue apagar os posts pela URL
-validar mestres
-erro quando estou em /forum sempre que seleciono um link fica forum/forum
+add nome eimg nos posts
