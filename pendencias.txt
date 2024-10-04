@@ -1,5 +1,0 @@
-arrumar edicao de img
-redirecior certo pro insta/maps
-nao ser obrigatorio as imgs do forum
-qualquer um consegue apagar os posts pela URL
-add nome eimg nos posts

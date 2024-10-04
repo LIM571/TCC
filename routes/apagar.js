@@ -29,12 +29,12 @@ router.get('/:id', async function (req, res) {
 
                 // Deleta o registro do banco de dados
                 await Evento.destroy({ where: { id: id } });
-                res.send('Registro deletado com sucesso');
+                res.redirect('/home');
             });
         } else {
             // Se não houver imagem associada, apenas deleta o registro do banco de dados
             await Evento.destroy({ where: { id: id } });
-            res.send('Registro deletado com sucesso, sem imagem associada');
+            res.redirect('/home');
         }
     } catch (error) {
         console.error('Erro:', error);

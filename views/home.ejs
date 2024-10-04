@@ -39,7 +39,7 @@
 
         <!-- Seção de Eventos -->
         <section id="eventos">
-            <%- include(`postEventos`) %>
+            <%- include('postEventos', { usuarioAtual: usuarioAtual, logado: logado }) %>
         </section>
     </main>
 

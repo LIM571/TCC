@@ -12,9 +12,15 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const usuarioAtual = req.user;
-        const eventos = await Evento.findAll();
-        res.render('home', { eventos, usuarioAtual });
+        const topicos = await Topico.findAll();
+            const postagens = await Postagem.findAll();
+            const resposta = await Resposta.findAll();
+            const eventos = await Evento.findAll();
+            const desafios = await Desafio.findAll();
+            const usuarios = await Usuario.findAll();
+
+            const usuarioAtual = req.user;
+            return res.render('home', { postagens,eventos, usuarioAtual,usuarios, resposta, topicos, desafios });
     } catch (error) {
         console.error('Erro ao buscar eventos:', error);
         res.status(500).send('Erro ao buscar eventos');
@@ -35,21 +41,29 @@ router.get('/confirmar-email', async (req, res) => {
         const usuario = await Usuario.findOne({ where: { tokenConfirmacao: token } });
 
         if (!usuario) {
+            const topicos = await Topico.findAll();
+            const postagens = await Postagem.findAll();
+            const resposta = await Resposta.findAll();
+            const eventos = await Evento.findAll();
+            const desafios = await Desafio.findAll();
+            const usuarioAtual = req.user;
             console.log('Token não encontrado no banco de dados:', token); // Log para checar token
-            return res.status(400).send('Token inválido ou expirado');
+            return res.render('home', { postagens,eventos, usuarioAtual,usuario, resposta, topicos, desafios });
+
         }
 
         const topicos = await Topico.findAll();
         const postagens = await Postagem.findAll();
         const resposta = await Resposta.findAll();
         const desafios = await Desafio.findAll();
+        const usuarioAtual = req.user;
 
 
         // Atualizar o campo mestre para true
         await Usuario.update({ mestre: true, tokenConfirmacao: null }, { where: { id: usuario.id } });
 
         res.status(500).send('Email confirmado com sucesso! Agora você é um mestre. ');
-        res.render('home', { postagens, usuarioAtual, resposta, topicos, desafios });
+        res.render('home', { postagens, usuarioAtual,usuario, resposta, topicos, desafios });
 
     } catch (error) {
         console.error('Erro ao confirmar o e-mail:', error);

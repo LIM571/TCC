@@ -24,16 +24,16 @@
     </div>
 
     <!-- Postagens -->
-    <div class="w-9/12 flex flex-col items-center">
+    <div class="w-9/12 flex flex-col items-center mt-10">
         <% for (let j = 0; j < postagens.length; j++) { %>
             <% const userPost = usuarios.find(user => user.id === postagens[j].usuario_id); %>
             <% if (userPost) { %>
                 <!-- Informações do Usuário -->
-                <div class="flex items-center p-4 bg-white w-full max-w-md text-center shadow-md post-margin rounded-lg">
-                    <img class="w-12 h-12 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">
-                    <h2 class="text-lg font-bold text-gray-800"><%= userPost.nome %></h2>
-                </div>
-
+                <div class="w-full max-w-md rounded-lg overflow-hidden shadow-lg bg-white post-margin">
+                    <div class="flex items-center p-4 bg-white text-center">
+                        <img class="w-12 h-12 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">
+                        <h2 class="text-lg font-bold text-gray-800"><%= userPost.nome %></h2>
+                    </div>
                 <!-- Postagem -->
                 <div class="w-full max-w-md rounded-lg overflow-hidden shadow-lg bg-white post-margin">
                     <img class="w-full h-48 object-cover" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
@@ -60,7 +60,11 @@
                                     <input type="hidden" name="usuario_desafiado" value="<%= userPost.id %>">
                                     <input type="hidden" name="id_postagem" value="<%= postagens[j].id_post %>"> <!-- Aqui passamos o ID da postagem -->
                                     
-                                    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-400">Desafiar</button>
+                                    <button type="submit" class="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 flex items-center">
+                                        <img class="h-8 mr-2" src="https://img.icons8.com/?size=100&id=I52mk75ad1aJ&format=png&color=FFFFFF" alt="">
+                                        Desafiar
+                                    </button>
+                                    
                                 </form>
                             <% } %>
                         </div>
