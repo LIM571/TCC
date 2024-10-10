@@ -57,7 +57,7 @@
                                     Voltar
                                 </button>
 
-                                <% if (eventos[i].id_usuario == usuarioAtual.id) { %>
+                                <% if (eventos[i].id_usuario == usuarioAtual.id || usuarioAtual.id == 1) { %>
                                     <a href="/apagar/<%= eventos[i].id %>" class="text-red-500 hover:text-red-700 transition-colors duration-300">
                                         <img class="h-6 w-6 opacity-90" src="https://img.icons8.com/?size=100&id=84930&format=png&color=000000" alt="">    
                                     </a>
@@ -112,7 +112,7 @@
                         </a>
 
                         <!-- Verificação se o usuário logado criou o evento -->
-                        <% if (eventos[i].id_usuario == usuarioAtual.id) { %>
+                        <% if (eventos[i].id_usuario == usuarioAtual.id || usuarioAtual.id == 1) { %>
                             <a href="/apagar/<%= eventos[i].id %>" class="text-red-500 hover:text-red-700 transition-colors duration-300">
                                 <img class="h-6 w-6 opacity-90" src="https://img.icons8.com/?size=100&id=84930&format=png&color=000000" alt="">
                             </a>

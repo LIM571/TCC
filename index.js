@@ -62,6 +62,8 @@ const desafioRoutes = require('./routes/desafio'); // ajuste o caminho conforme 
 app.use('/desafio', desafioRoutes);
 
 
+const NotificacaoRoutes = require('./routes/notificacao'); // ajuste o caminho conforme sua estrutura
+app.use('/notificacoes', NotificacaoRoutes);
 
 
 
@@ -76,6 +78,9 @@ app.use('/perfil', authenticationMiddleware, perfil);
 
 const Forum = require('./routes/forum');
 app.use('/forum', authenticationMiddleware, Forum);
+
+const notificacaoRoutes = require('./routes/notificacao');
+
 
 const Apagar = require('./routes/apagar');
 app.use('/apagar', authenticationMiddleware, Apagar);

@@ -3,28 +3,69 @@ const app = express();
 const router = express.Router();
 const Desafio = require('../model/Desafiar');
 const Usuario = require('../model/Usuario');
+const Notificacao = require('../model/Notificacao');
+
+// Rota para desafiar um usuário
+app.post('/desafio', async (req, res) => {
+  const { usuario_desafiante, usuario_desafiado, id_postagem } = req.body;
+  
+  try {
+    // Cria o desafio
+    const novoDesafio = await Desafio.create({
+      usuario_desafiante: usuario_desafiante,
+      usuario_desafiado: usuario_desafiado,
+      id_postagem: id_postagem
+    });
+
+    // Buscar nome do desafiante
+    const desafiante = await Usuario.findByPk(usuario_desafiante);
+    const mensagem = `${desafiante.nome_lutador} desafiou você!`;
+
+    // Cria a notificação
+    await Notificacao.create({
+      usuario_id: usuario_desafiado,
+      mensagem: mensagem
+    });
+
+    res.redirect('/forum');
+  } catch (error) {
+    console.error('Erro ao criar desafio:', error);
+    res.status(500).send('Erro ao criar desafio');
+  }
+});
 
 // Armazena os desafios recentes temporariamente
 let desafiosRecentes = [];
 
 // Rota para desafiar
-router.post('/', async (req, res) => {
-    const { usuario_desafiante, usuario_desafiado, id_postagem } = req.body;
+// Atualização na rota desafio.js
 
-     // Verifica se já existe um desafio entre os usuários para a mesma postagem
-    const desafioExistente = await Desafio.findOne({
-        where: {
-            usuario_desafiante,
-            usuario_desafiado,
-            id_postagem
-        }
+// Exemplo de rota para obter notificações pendentes
+router.get('/notificacoes', async (req, res) => {
+  const { usuario_id } = req.query;  // ID do usuário logado
+
+  try {
+    // Buscar notificações pendentes do usuário
+    const notificacoesPendentes = await Notificacao.findAll({
+      where: {
+        usuario_id: usuario_id,
+        estado: 'pendente'
+      }
     });
 
-    // Se já existir um desafio, retorne uma mensagem de erro
-    if (desafioExistente) {
-        return res.status(400).json({ error: "Você já desafiou este usuário nesta postagem." });
-    }
+    // Retorna o total de notificações pendentes
+    const totalNotificacoes = notificacoesPendentes.length;
 
+    res.json({ totalNotificacoes });
+  } catch (error) {
+    console.error('Erro ao buscar notificações:', error);
+    res.status(500).send('Erro ao buscar notificações');
+  }
+});
+
+
+router.post('/', async (req, res) => {
+    const { usuario_desafiante, usuario_desafiado, id_postagem } = req.body;
 
     try {
         // Verifique se o campo id_postagem foi fornecido
@@ -41,23 +82,62 @@ router.post('/', async (req, res) => {
             return res.status(404).send('Usuário não encontrado');
         }
 
-        // Cria o novo desafio com o id_postagem
-        const novoDesafio = await Desafio.create({
-            usuario_desafiante: usuario_desafiante,
-            usuario_desafiado: usuario_desafiado,
-            id_postagem: id_postagem // Agora estamos passando o id da postagem
+        // Verifica se já existe um desafio entre os usuários para a mesma postagem
+        const desafioExistente = await Desafio.findOne({
+            where: {
+                usuario_desafiante,
+                usuario_desafiado,
+                id_postagem
+            }
         });
 
-        // Armazena o desafio recente
-        desafiosRecentes.push(`${desafiante.nome_lutador} desafiou ${desafiado.nome_lutador}!`);
+        // Se já existir um desafio, retorne uma mensagem de erro
+        if (desafioExistente) {
+            return res.status(400).json({ error: "Você já desafiou este usuário nesta postagem." });
+        }
 
-        // Redireciona de volta para o fórum após o desafio
+        // Cria o novo desafio
+        const novoDesafio = await Desafio.create({
+            usuario_desafiante,
+            usuario_desafiado,
+            id_postagem
+        });
+
+        // Cria a notificação para o desafiado com estado 'pendente' e adiciona id_postagem
+        await Notificacao.create({
+            usuario_id: usuario_desafiado,
+            id_postagem: id_postagem,
+            estado: 'pendente',
+            lida: false  // Define como não lida inicialmente
+        });
+
         res.redirect('/forum');
     } catch (error) {
         console.error('Erro ao criar desafio:', error);
         res.status(500).send('Erro ao criar desafio');
     }
 });
+
+// Rota para buscar notificações pendentes
+router.get('/contagem', async (req, res) => {
+    const usuario_id = req.session.passport.user.id; // ID do usuário logado
+  
+    try {
+      const contagemNotificacoes = await Notificacao.count({
+        where: {
+          usuario_id: usuario_id,
+          estado: 'pendente',
+          lida: false
+        }
+      });
+  
+      res.json({ contagem: contagemNotificacoes });
+    } catch (error) {
+      console.error('Erro ao buscar contagem de notificações:', error);
+      res.status(500).send('Erro ao buscar contagem de notificações');
+    }
+  });
+  
 
 
 // Exemplo de como deveria ser a rota para resposta ao desafio

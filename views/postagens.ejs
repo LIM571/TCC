@@ -8,14 +8,23 @@
         justify-content: center;
     }
 
-    /* Margem inferior para espaçamento entre postagens */
-    .post-margin {
-        margin-bottom: 1.5rem;
+    /* Estilo para melhorar a estética */
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilo para o hover dos botões */
+    button:hover {
+        transition: all 0.3s ease;
     }
 </style>
 
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<div>
+
+</div>
 
 <div class="flex p-6 space-x-6">
     <!-- Tópicos -->
@@ -24,92 +33,82 @@
     </div>
 
     <!-- Postagens -->
-    <div class="w-9/12 flex flex-col items-center mt-10">
+    <div class="w-9/12 flex flex-col items-center mb-80 space-y-12"> <!-- Ajuste no espaçamento -->
         <% for (let j = 0; j < postagens.length; j++) { %>
             <% const userPost = usuarios.find(user => user.id === postagens[j].usuario_id); %>
             <% if (userPost) { %>
-                <!-- Informações do Usuário -->
-                <div class="w-full max-w-md rounded-lg overflow-hidden shadow-lg bg-white post-margin">
-                    <div class="flex items-center p-4 bg-white text-center">
+                <!-- Cartão da Postagem -->
+                <div class="card w-full max-w-md rounded-lg overflow-hidden bg-white mb-16">
+                    <!-- Informações do Usuário -->
+                    <div class="flex items-center p-4 bg-white">
                         <img class="w-12 h-12 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">
                         <h2 class="text-lg font-bold text-gray-800"><%= userPost.nome %></h2>
                     </div>
-                <!-- Postagem -->
-                <div class="w-full max-w-md rounded-lg overflow-hidden shadow-lg bg-white post-margin">
+
+                    <!-- Postagem -->
                     <img class="w-full h-48 object-cover" src="/imagens/<%= postagens[j].midia %>" alt="User Image">
                     <div class="p-4">
                         <p class="text-gray-700 text-base mb-4">
                             <%= postagens[j].descricao %>
                         </p>
 
-                        <!-- Ícones e Nomes (Responder e Desafiar) -->
+                        <!-- Botões de Ação (Responder e Desafiar) -->
                         <div class="flex center-buttons space-x-4 mt-4">
                             <!-- Botão Responder -->
                             <form action="resposta/cadastro" method="POST" class="flex items-center space-x-2">
                                 <input type="hidden" name="postagem_id" value="<%= postagens[j].id_post %>">
-                                <button type="submit" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded">
+                                <button type="submit" class="bg-red-700 text-white hover:bg-red-600 flex items-center space-x-1 py-2 px-4 rounded transition ease-in-out">
                                     <i class="fas fa-comment-alt fa-lg"></i>
                                     <span class="text-lg">Responder</span>
                                 </button>
                             </form>
 
-                            <!-- Botão Desafiar (Aparece apenas se for possível desafiar) -->
+                            <!-- Botão Desafiar -->
                             <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
                                 <form action="/desafio" method="POST">
                                     <input type="hidden" name="usuario_desafiante" value="<%= usuarioAtual.id %>">
                                     <input type="hidden" name="usuario_desafiado" value="<%= userPost.id %>">
-                                    <input type="hidden" name="id_postagem" value="<%= postagens[j].id_post %>"> <!-- Aqui passamos o ID da postagem -->
+                                    <input type="hidden" name="id_postagem" value="<%= postagens[j].id_post %>">
                                     
-                                    <button type="submit" class="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 flex items-center">
+                                    <button type="submit" class="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 flex items-center transition ease-in-out">
                                         <img class="h-8 mr-2" src="https://img.icons8.com/?size=100&id=I52mk75ad1aJ&format=png&color=FFFFFF" alt="">
                                         Desafiar
                                     </button>
-                                    
                                 </form>
                             <% } %>
                         </div>
 
-                    <!-- Exibe Desafio se existir -->
-<% const desafioExistente = desafios.find(d => d.usuario_desafiado === userPost.id && d.id_postagem === postagens[j].id_post); %>
-<% if (desafioExistente) { %>
-    <div class="mt-4 bg-gray-800 p-4 rounded-lg shadow-lg text-center">
-        <p class="text-red-600 font-bold">
-            <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %> desafiou <%= userPost.nome %>
-        </p>
+                        <!-- Exibe Desafio se houver -->
+                        <% const desafioExistente = desafios.find(d => d.usuario_desafiado === userPost.id && d.id_postagem === postagens[j].id_post); %>
+                        <% if (desafioExistente) { %>
+                            <div class="mt-4 bg-gray-800 p-4 rounded-lg shadow-lg text-center">
+                                <p class="text-red-600 font-bold">
+                                    <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %> desafiou <%= userPost.nome %>
+                                </p>
 
-        <% if (desafioExistente.estado === 'pendente') { %>
-            <div class="mt-4 bg-gray-800 p-4 rounded-lg shadow-lg text-center">
-                <p class="text-red-600 font-bold">
-                    O usuário <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %> desafiou <%= userPost.nome %>
-                </p>
-        
-                <!-- Botões de Aceitar ou Recusar (Aparece apenas se o desafio estiver pendente) -->
-                <% if (usuarioAtual.id === userPost.id) { %>
-                    <form action="/desafio/resposta" method="POST">
-                        <input type="hidden" name="desafio_id" value="<%= desafioExistente.id_desafio %>">
-                        <button type="submit" name="resposta" value="aceitar" class="bg-green-500 text-white py-1 px-3 rounded">Aceitar</button>
-                        <button type="submit" name="resposta" value="negar" class="bg-red-700 text-white py-1 px-3 rounded hover:bg-red-600">Negar</button>
-                    </form>
-                <% } %>
-            </div>
-        <% } else { %>
-            <!-- Exibir resultado do desafio após aceito ou negado -->
-            <div class="mt-2 bg-gray-800 p-4 rounded-lg text-center">
-                <p class="text-red-600 font-bold">
-                    O usuário <%= userPost.nome %> <%= desafioExistente.estado === 'aceito' ? 'aceitou' : 'recusou' %> o desafio do usuário <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %>.
-                </p>
-            </div>
-        <% } %>
-        
-        
+                                <% if (desafioExistente.estado === 'pendente') { %>
+                                    <!-- Botões Aceitar ou Recusar -->
+                                    <% if (usuarioAtual.id === userPost.id) { %>
+                                        <form action="/desafio/resposta" method="POST">
+                                            <input type="hidden" name="desafio_id" value="<%= desafioExistente.id_desafio %>">
+                                            <button type="submit" name="resposta" value="aceitar" class="bg-green-500 text-white py-1 px-3 rounded transition ease-in-out">Aceitar</button>
+                                            <button type="submit" name="resposta" value="negar" class="bg-red-700 text-white py-1 px-3 rounded hover:bg-red-600 transition ease-in-out">Negar</button>
+                                        </form>
+                                    <% } %>
+                                <% } else { %>
+                                    <!-- Resultado do Desafio -->
+                                    <div class="mt-2 p-4 rounded-lg text-center bg-gray-800 shadow-lg">
+                                        <p class="text-red-600 font-bold">
+                                            O usuário <%= userPost.nome %> <%= desafioExistente.estado === 'aceito' ? 'aceitou' : 'recusou' %> o desafio de <%= usuarios.find(user => user.id === desafioExistente.usuario_desafiante).nome %>.
+                                        </p>
+                                    </div>
+                                <% } %>
+                            </div>
+                        <% } %>
 
-
-<% } %>
-
-
-                        <!-- Respostas -->
+                        <!-- Seção de Respostas -->
                         <div class="mt-6">
-                            <h3 class="text-lg font-bold mb-2 text-white">Respostas</h3>
+                            <h3 class="text-lg font-bold mb-2 text-gray-900">Respostas</h3>
                             <div class="comentarios-list hidden" id="comentarios-<%= postagens[j].id_post %>">
                                 <% let displayedComments = 0; %>
                                 <% for (let x = 0; x < resposta.length; x++) { 
@@ -130,20 +129,20 @@
 
                             <!-- Botões Mostrar Comentários -->
                             <div class="flex justify-center space-x-2 mt-4">
-                                <button class="mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded" data-postagem-id="<%= postagens[j].id_post %>">
+                                <button class="mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded transition ease-in-out" data-postagem-id="<%= postagens[j].id_post %>">
                                     Mostrar Comentários
                                 </button>
                             </div>
 
-                            <!-- Botões Mostrar Mais e Mostrar Menos -->
+                            <!-- Botões Mostrar Mais/Menos -->
                             <div class="flex justify-center space-x-2 hidden" id="show-more-less-<%= postagens[j].id_post %>">
-                                <button class="mostrar-mais bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded" data-postagem-id="<%= postagens[j].id_post %>" data-display-count="<%= displayedComments %>">
+                                <button class="mostrar-mais bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded transition ease-in-out" data-postagem-id="<%= postagens[j].id_post %>" data-display-count="<%= displayedComments %>">
                                     Mostrar Mais
                                 </button>
-                                <button class="mostrar-menos bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
+                                <button class="mostrar-menos bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden transition ease-in-out" data-postagem-id="<%= postagens[j].id_post %>">
                                     Mostrar Menos
                                 </button>
-                                <button class="nao-mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden" data-postagem-id="<%= postagens[j].id_post %>">
+                                <button class="nao-mostrar-comentarios bg-red-700 text-white hover:bg-red-600 py-2 px-4 rounded hidden transition ease-in-out" data-postagem-id="<%= postagens[j].id_post %>">
                                     Não Mostrar
                                 </button>
                             </div>

@@ -5,24 +5,39 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const Evento = require('../model/evento'); // Certifique-se de que o caminho está correto
+const Usuario = require('../model/Usuario'); // Para garantir que você tenha acesso ao modelo de usuário
 
 // Rota GET para /cadastroEvento
 router.get('/', function (req, res) {
     const usuarioAtual = req.user;
-    res.render('cadastroEvento', {usuarioAtual});
-
+    
+    // Verifica se o usuário é mestre
+    if (usuarioAtual.mestre) {
+        res.render('cadastroEvento', { usuarioAtual });
+    } else {
+        // Se não for mestre, redireciona ou mostra uma mensagem de erro
+        res.status(403).send('Acesso negado. Apenas mestres podem cadastrar eventos.');
+    }
 });
 
 // Rota POST para /cadastroEvento
-router.post('/', function (req, res) {
-    const form = new formidable.IncomingForm();
+router.post('/', async function (req, res) {
+    const usuarioAtual = req.user;
 
+    // Verifica se o usuário é mestre antes de permitir o cadastro do evento
+    if (!usuarioAtual.mestre) {
+        return res.status(403).send('Acesso negado. Apenas mestres podem cadastrar eventos.');
+    }
+
+    const form = new formidable.IncomingForm();
+    
     form.parse(req, (err, fields, files) => {
         if (err) {
             console.error(err);
             return res.redirect('/cadastroEvento');
         }
-        const id_usuario = req.user.id;
+        
+        const id_usuario = usuarioAtual.id;
         const nome_evento = fields['nome_evento'][0];
         const descricao_evento = fields['descricao_evento'][0];
         const ingresso = parseFloat(fields['ingresso'][0]);
