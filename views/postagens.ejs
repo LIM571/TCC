@@ -91,6 +91,7 @@
                                     <% if (usuarioAtual.id === userPost.id) { %>
                                         <form action="/desafio/resposta" method="POST">
                                             <input type="hidden" name="desafio_id" value="<%= desafioExistente.id_desafio %>">
+                                            <input type="hidden" name="notificacao_id" value="<%= desafioExistente.notificacao_id %>">
                                             <button type="submit" name="resposta" value="aceitar" class="bg-green-500 text-white py-1 px-3 rounded transition ease-in-out">Aceitar</button>
                                             <button type="submit" name="resposta" value="negar" class="bg-red-700 text-white py-1 px-3 rounded hover:bg-red-600 transition ease-in-out">Negar</button>
                                         </form>

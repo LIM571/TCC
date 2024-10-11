@@ -2,6 +2,8 @@ const database = require('../db');
 const Sequelize = require('sequelize');
 const Usuario = require('./Usuario');
 const Postagem = require('./postagens');
+const Desafiar = require('./Desafiar');
+
 
 const Notificacao = database.define('notificacoes', {
   id: { 
@@ -33,8 +35,8 @@ const Notificacao = database.define('notificacoes', {
   },
   estado: { 
     type: Sequelize.STRING, 
-    allowNull: false, 
-    defaultValue: 'pendente' 
+    model: Desafiar, 
+    key: 'estado' 
   },
   createdAt: { 
     type: Sequelize.DATE, 

@@ -64,6 +64,7 @@ router.get('/notificacoes', async (req, res) => {
 });
 
 
+
 router.post('/', async (req, res) => {
     const { usuario_desafiante, usuario_desafiado, id_postagem } = req.body;
 
@@ -141,31 +142,43 @@ router.get('/contagem', async (req, res) => {
 
 
 // Exemplo de como deveria ser a rota para resposta ao desafio
+// Exemplo de como deveria ser a rota para resposta ao desafio
 router.post('/resposta', async (req, res) => {
-    const { desafio_id, resposta } = req.body;
+  const { desafio_id, resposta } = req.body;
 
-    try {
-        if (typeof desafio_id === 'undefined' || typeof resposta === 'undefined') {
-            console.error('Erro: desafio_id ou resposta não definidos');
-            return res.status(400).send('Dados não fornecidos corretamente');
-        }
+  try {
+      if (typeof desafio_id === 'undefined' || typeof resposta === 'undefined') {
+          console.error('Erro: desafio_id ou resposta não definidos');
+          return res.status(400).send('Dados não fornecidos corretamente');
+      }
 
-        if (resposta === 'aceitar') {
-            await Desafio.update({ estado: 'aceito' }, { where: { id_desafio: desafio_id } });
-            res.send('Desafio aceito!');
-        } else if (resposta === 'negar') {
-            await Desafio.update({ estado: 'negado' }, { where: { id_desafio: desafio_id } });
-            res.send('Desafio negado!');
-        }
+      // Atualiza o estado do desafio
+      if (resposta === 'aceitar') {
+          await Desafio.update({ estado: 'aceito' }, { where: { id_desafio: desafio_id } });
+          res.send('Desafio aceito!');
+      } else if (resposta === 'negar') {
+          await Desafio.update({ estado: 'negado' }, { where: { id_desafio: desafio_id } });
+          res.send('Desafio negado!');
+      }
 
-        // Atualiza a lista de desafios recentes
-        desafiosRecentes = desafiosRecentes.filter(desafio => desafio.id_desafio !== desafio_id);
+      // Busca o desafio para pegar o id_postagem
+      const desafio = await Desafio.findByPk(desafio_id);
+      if (!desafio) {
+          return res.status(404).send('Desafio não encontrado');
+      }
 
-    } catch (error) {
-        console.error('Erro ao processar a resposta do desafio:', error);
-        res.status(500).send('Erro ao processar a resposta do desafio');
-    }
+      // Atualiza o estado da notificação correspondente à postagem do desafio
+      await Notificacao.update({ estado: resposta }, { where: { id_postagem: desafio.id_postagem } });
+
+      // Remove o desafio da lista de desafios recentes
+      desafiosRecentes = desafiosRecentes.filter(desafio => desafio.id_desafio !== desafio_id);
+
+  } catch (error) {
+      console.error('Erro ao processar a resposta do desafio:', error);
+      res.status(500).send('Erro ao processar a resposta do desafio');
+  }
 });
+
 
 
 // Exporta os desafios recentes

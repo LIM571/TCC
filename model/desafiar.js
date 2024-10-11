@@ -6,6 +6,7 @@ const Usuario = require('./Usuario');
 const Postagem = require('./postagens'); 
 
 
+
 const Desafio = database.define('desafios', {
   id_desafio: {
     type: Sequelize.INTEGER,
