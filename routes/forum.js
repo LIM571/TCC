@@ -4,6 +4,7 @@ const Postagem = require('../model/postagens');
 const Resposta = require('../model/Respostas');
 const Topico = require('../model/topico');
 const Desafio = require('../model/Desafiar'); // Importe o modelo de Desafio
+const { where } = require('sequelize');
 
 
 const router = express.Router();
@@ -26,6 +27,15 @@ router.get('/', async (req, res) => {
         res.status(500).send('Erro ao carregar o fórum');
     }
 });
+
+router.get('/postagem/:id', async (req, res) => {
+
+const idPostagem = req.params.id;
+const topicos = await Topico.findAll();
+const idForum = await Postagem.findAll({where: {id_post: idPostagem}});
+//res.redirect('forum/'+topicos.id+ '#' + idPostagem);
+res.redirect('/forum/'+idForum[0].id_topico+ '#' + idPostagem)
+})
 
 // Rota para exibir postagens de um tópico específico
 router.get('/:id', async (req, res) => {

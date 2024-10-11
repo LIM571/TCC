@@ -17,8 +17,6 @@ router.get('/', async (req, res) => {
 
         const usuarioAtual = req.user;
 
-
-
         res.render('perfil', { usuarios, postagens, usuarioAtual, notificacoes, topico, desafios });
     } catch (error) {
         console.error(error);

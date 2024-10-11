@@ -38,7 +38,7 @@
             <% const userPost = usuarios.find(user => user.id === postagens[j].usuario_id); %>
             <% if (userPost) { %>
                 <!-- Cartão da Postagem -->
-                <div class="card w-full max-w-md rounded-lg overflow-hidden bg-white mb-16">
+                <div class="card w-full max-w-md rounded-lg overflow-hidden bg-white mb-16" id="<%= postagens[j].id_post%>">
                     <!-- Informações do Usuário -->
                     <div class="flex items-center p-4 bg-white">
                         <img class="w-12 h-12 rounded-full mr-4" src="/imagens/<%= userPost.img %>" alt="User Avatar">

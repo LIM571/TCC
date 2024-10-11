@@ -96,13 +96,23 @@
             <div class="mt-10">
                 <h2 class="text-xl font-semibold text-gray-700 mb-4">Notificações</h2>
                 <ul class="list-disc pl-5">
-                    <% notificacoes.forEach(notificacao => { %>
-                        <li class="mb-2">
-                            <a href="/forum/<%= usuarioAtual.id_topico%>/<%= notificacao.id_postagem %>" class="text-blue-500 hover:underline">
-                                <%= notificacao.estado %> - <%= notificacao.createdAt.toLocaleString() %>
-                            </a>
-                        </li>
-                    <% }) %>
+                    <% if (notificacoes.length > 0) { %> <!-- Verifica se existem notificações -->
+                        <ul>
+                          <% notificacoes.forEach(notificacao => { %>
+                            <% if (usuarioAtual.id === notificacao.usuario_id) { %> <!-- Exibe apenas as notificações do usuário atual -->
+                              <li class="mb-2">
+                                <a href="/forum/postagem/<%= notificacao.id_postagem %>" class="text-blue-500 hover:underline">
+                                  <%= notificacao.estado %> - <%= new Date(notificacao.createdAt).toLocaleString() %>
+                                </a>
+                              </li>
+                            <% } %>
+                          <% }) %>
+                        </ul>
+                      <% } else { %>
+                        <p>Você não tem notificações.</p>
+                      <% } %>
+                      
+                    
                 </ul>
             </div>
         </div>
