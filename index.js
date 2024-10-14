@@ -81,6 +81,14 @@ app.use('/forum', authenticationMiddleware, Forum);
 
 const notificacaoRoutes = require('./routes/notificacao');
 
+const apagarPostagem = require('./routes/apagarPostagem');
+app.use('/apagarPostagem', authenticationMiddleware, apagarPostagem);
+
+const apagarTopcico = require('./routes/apagarTopico');
+app.use('/apagarTopico', authenticationMiddleware, apagarTopcico);
+
+const apagarResposta = require('./routes/apagarResposta');
+app.use('/apagarResposta', authenticationMiddleware, apagarResposta);
 
 const Apagar = require('./routes/apagar');
 app.use('/apagar', authenticationMiddleware, Apagar);

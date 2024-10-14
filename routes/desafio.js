@@ -155,10 +155,10 @@ router.post('/resposta', async (req, res) => {
       // Atualiza o estado do desafio
       if (resposta === 'aceitar') {
           await Desafio.update({ estado: 'aceito' }, { where: { id_desafio: desafio_id } });
-          res.send('Desafio aceito!');
+          return res.redirect('/forum');
       } else if (resposta === 'negar') {
           await Desafio.update({ estado: 'negado' }, { where: { id_desafio: desafio_id } });
-          res.send('Desafio negado!');
+          return res.redirect('/forum');
       }
 
       // Busca o desafio para pegar o id_postagem

@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
     secure: true,
     auth: {
         user: 'ramuaycontact@gmail.com',
-        pass: '', 
+        pass: 'ihld thxt mhxk vnmm', 
     },
     tls: {
         rejectUnauthorized: false, // Para evitar erros com certificados

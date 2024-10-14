@@ -98,16 +98,18 @@
                 <ul class="list-disc pl-5">
                     
                     <ul>
-                        <% notificacoes.forEach(notificacao => { %>
-                          <% if (usuarioAtual.id === notificacao.usuario_id && notificacao.estado === 'pendente') { %>
-                            <li class="mb-2">
-                              <!-- Link que redireciona para a postagem -->
-                              <a href="/forum/postagem/<%= notificacao.id_postagem %>" class="text-blue-500 hover:underline">
-                                <%= notificacao.mensagem %> - <%= new Date(notificacao.createdAt).toLocaleString() %>
-                              </a>
-                            </li>
-                          <% } %>
-                        <% }) %>
+                        <ul>
+                            <% notificacoes.forEach(notificacao => { %>
+                              <% if (usuarioAtual.id === notificacao.usuario_id && notificacao.estado === 'pendente') { %>
+                                <li class="mb-2">
+                                  <!-- Link que redireciona para a postagem -->
+                                  <a href="/forum/postagem/<%= notificacao.id_postagem %>" class="text-blue-500 hover:underline">
+                                    <%= "Você tem um novo Desafio: " + notificacao.mensagem %> - <%= new Date(notificacao.createdAt).toLocaleString() %>
+                                  </a>
+                                </li>
+                              <% } %>
+                            <% }) %>
+                          </ul>
                       </ul>
                   </ul>
                   

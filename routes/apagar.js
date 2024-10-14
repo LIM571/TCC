@@ -1,43 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
-const path = require('path');
-const Evento = require('../model/evento'); 
+const Desafio = require('../model/Desafiar'); // Supondo que você tenha um modelo de desafios
 
 router.get('/:id', async function (req, res) {
-    const id = req.params.id;
+    const usuario_id = req.user ? req.user.id : null; // Defina usuario_id aqui
+
+    if (!usuario_id) {
+        return res.status(403).send('Usuário não autenticado');
+    }
 
     try {
-        // Busca o registro do evento pelo ID
-        const evento = await Evento.findByPk(id);
-
-        if (!evento) {
-            return res.status(404).send('Evento não encontrado');
-        }
-
-        const fileName = evento.img; // Assume que o nome do arquivo está na coluna `img`
-
-        // Verifica se fileName não está undefined
-        if (fileName) {
-            const filePath = path.join(__dirname, '../public/imagens', fileName); // Corrigido caminho
-
-            // Remove o arquivo
-            fs.unlink(filePath, async (err) => {
-                if (err) {
-                    return res.status(500).send('Falha ao deletar o arquivo');
-                }
-
-                // Deleta o registro do banco de dados
-                await Evento.destroy({ where: { id: id } });
-                res.redirect('/home');
-            });
-        } else {
-            // Se não houver imagem associada, apenas deleta o registro do banco de dados
-            await Evento.destroy({ where: { id: id } });
-            res.redirect('/home');
-        }
+        // Aqui você deve ter a lógica para buscar a contagem de desafios
+        const contagemDesafios = await Desafio.count({ where: { usuario_id: usuario_id } });
+        
+        // Continue com sua lógica...
+        res.json({ contagem: contagemDesafios });
     } catch (error) {
-        console.error('Erro:', error);
+        console.error('Erro ao buscar contagem de desafios:', error);
         res.status(500).send('Erro ao processar a solicitação');
     }
 });
