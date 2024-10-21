@@ -64,14 +64,9 @@
                                 <span class="text-lg">Responder</span>
                             </button>
                         </form>
-                        <% if (postagens.usuario_id == usuario.id || usuarioAtual.id == 1) { %>
-                            <form action="/apagarPostagem/<%= postagens[j].id_post %>" method="GET" class="flex items-center">
-                                <button type="submit" class="text-red-500 hover:text-red-700 transition-colors duration-300">
-                                    <img class="h-6 w-6 opacity-90" src="https://img.icons8.com/?size=100&id=84930&format=png&color=000000" alt="Deletar">
-                                </button>
-                            </form>
-                            
-                        <% } %>
+                       
+                        
+
                         <!-- Botão Desafiar -->
                         <% if (usuarioAtual.id !== userPost.id && userPost.categoria === usuarioAtual.categoria && userPost.lvl_profissional === usuarioAtual.lvl_profissional) { %>
                             <form action="/desafio" method="POST">
@@ -87,7 +82,14 @@
                             
                         <% } %>
 
-                        
+                        <% if (postagens[j].usuario_id == usuarioAtual.id || usuarioAtual.id == 1) { %>
+                            <form action="/apagarPostagem/<%= postagens[j].id_post %>" method="GET" class="flex items-center">
+                                <button type="submit" class="text-red-500 hover:text-red-700 transition-colors duration-300">
+                                    <img class="h-6 w-6 opacity-90" src="https://img.icons8.com/?size=100&id=84930&format=png&color=000000" alt="Deletar">
+                                </button>
+                            </form>
+                            
+                        <% } %>
                        
                     </div>
 
@@ -127,17 +129,40 @@
                         <!-- Lista de Comentários (inicialmente oculta) -->
                         <div class="comentarios-list hidden" id="comentarios-<%= postagens[j].id_post %>">
                             <% for (let x = 0; x < resposta.length; x++) { 
+                                // Verifica se a postagem corresponde ao tópico certo
                                 if (postagens[j].id_post == resposta[x].postagem_id) { %>
+                                
                                 <div class="flex items-start bg-gray-100 p-3 rounded-lg mb-2 shadow-sm">
+                                    <!-- Exibe o avatar do usuário que respondeu -->
                                     <img class="w-10 h-10 rounded-full mr-3" src="/imagens/<%= usuarios.find(user => user.id === resposta[x].usuario_id).img %>" alt="User Avatar">
+                                    
                                     <div>
-                                        <p class="text-gray-800 font-bold"><%= usuarios.find(user => user.id === resposta[x].usuario_id).nome %></p>
+                                        <!-- Verifica se o usuário atual é o dono da resposta ou um administrador (id == 1) -->
+                                       
+                            
+                                    
+                            
+                                        <!-- Exibe o nome e conteúdo da resposta -->
+                                        <p class="text-gray-800 font-bold">
+                                            <%= usuarios.find(user => user.id === resposta[x].usuario_id).nome %>
+                                        </p>
                                         <p class="text-gray-700"><%= resposta[x].conteudo %></p>
-                                        
+                                        <% if (resposta[x].usuario_id == usuarioAtual.id || usuarioAtual.id == 1) { %>
+                                            <!-- Botão para apagar resposta -->
+                                            <form action="/apagarResposta/<%= resposta[x].id_resposta %>" method="GET" class="flex items-center">
+                                                <button type="submit" class="text-red-500 hover:text-red-700 transition-colors duration-300">
+                                                    <img class="h-6 w-6 opacity-90" src="https://img.icons8.com/?size=100&id=84930&format=png&color=000000" alt="Deletar">
+                                                </button>
+                                            </form>
+                                        <% } %>
                                     </div>
+                                    
                                 </div>
+                                
+                                
                                 <% } 
                             } %>
+                            
                         </div>
 
                         <!-- Botão Mostrar Comentários -->

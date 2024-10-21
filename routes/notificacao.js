@@ -15,6 +15,7 @@ router.delete('/:id', async (req, res) => {
 
 // Rota para buscar a contagem de desafios feitos ao usuarioAtual
 router.get('/desafios/contagem', async (req, res) => {
+  const usuario_id = req.user.id; // Usando o ID do usuário logado
 
   try {
     const contagemDesafios = await Desafio.count({

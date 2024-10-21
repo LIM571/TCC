@@ -1,25 +1,27 @@
 const express = require('express');
+const Respostas = require('../model/Respostas'); // Importando o modelo de Respostas
 const router = express.Router();
-const Resposta = require('../model/Respostas'); // Modelo de respostas
 
 router.get('/:id', async function (req, res) {
     const id = req.params.id;
 
     try {
-        // Busca a resposta pelo ID
-        const resposta = await Resposta.findByPk(id);
+        // Buscar a resposta pelo id
+        const resposta = await Respostas.findByPk(id);
 
         if (!resposta) {
             return res.status(404).send('Resposta não encontrada');
         }
 
-        // Deleta a resposta
-        await Resposta.destroy({ where: { id_resposta: id } });
+        // Deleta o registro da tabela Respostas
+        await Respostas.destroy({ where: { id_resposta: id } });
 
-        res.redirect('/home');
+        // Redirecionar após a exclusão (ajuste a rota conforme necessário)
+        res.redirect('/forum'); // Redirecione para a página apropriada
+
     } catch (error) {
-        console.error('Erro ao deletar resposta:', error);
-        res.status(500).send('Erro ao processar a solicitação');
+        console.error('Erro ao tentar apagar a resposta:', error);
+        res.status(500).send('Erro ao tentar apagar a resposta');
     }
 });
 

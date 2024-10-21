@@ -40,6 +40,8 @@
                     <h2 class="text-white text-xl font-bold"><%= topico.titulo %></h2>
                     <a href="/forum/<%= topico.id %>" class="text-blue-400 hover:underline">Ver Discussão</a>
                     <div>
+                        
+
                         <% if (topico.usuario_id == usuarioAtual.id || usuarioAtual.id == 1) { %>
                             <a href="/apagarTopico/<%= topico.id %>" class="text-red-500 hover:text-red-700 transition-colors duration-300">
                                 <img class="h-6 w-6 opacity-90" src="https://img.icons8.com/?size=100&id=84930&format=png&color=000000" alt="Deletar">

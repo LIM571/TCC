@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <link rel="shortcut icon" class="h-12 w-14" type="image/png" href="/img/logobb.png">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Perfil</title>
@@ -99,16 +101,16 @@
                     
                     <ul>
                         <ul>
-                            <% notificacoes.forEach(notificacao => { %>
-                              <% if (usuarioAtual.id === notificacao.usuario_id && notificacao.estado === 'pendente') { %>
-                                <li class="mb-2">
-                                  <!-- Link que redireciona para a postagem -->
-                                  <a href="/forum/postagem/<%= notificacao.id_postagem %>" class="text-blue-500 hover:underline">
-                                    <%= "Você tem um novo Desafio: " + notificacao.mensagem %> - <%= new Date(notificacao.createdAt).toLocaleString() %>
-                                  </a>
-                                </li>
-                              <% } %>
-                            <% }) %>
+                            <% desafios.forEach(desafio => { %>
+                                <% if (usuarioAtual.id === desafio.usuario_desafiado && desafio.estado === 'pendente') { %>
+                                  <li class="mb-2">
+                                    <!-- Link que redireciona para a postagem relacionada ao desafio -->
+                                    <a href="/forum/postagem/<%= desafio.id_postagem %>" class="text-blue-500 hover:underline">
+                                      <%= "Você tem um Desafio pendente: " %> - <%= new Date(desafio.createdAt).toLocaleString() %>
+                                    </a>
+                                  </li>
+                                <% } %>
+                              <% }) %>
                           </ul>
                       </ul>
                   </ul>
@@ -131,21 +133,5 @@
         }
     });
 
-    function removerNotificacao(event, notificacaoId) {
-        event.preventDefault(); // Impede o comportamento padrão do link
-        fetch(`/notificacoes/${notificacaoId}`, {
-            method: 'DELETE'
-        })
-        .then(response => {
-            if (response.ok) {
-                // Redireciona para o link após a notificação ser removida
-                window.location.href = event.target.href;
-            } else {
-                console.error('Erro ao remover notificação');
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao remover notificação:', error);
-        });
-    }
+   
 </script>

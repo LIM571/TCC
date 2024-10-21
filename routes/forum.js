@@ -29,35 +29,39 @@ router.get('/', async (req, res) => {
     }
 });
 router.get('/postagem/:id', async (req, res) => {
-    const idPostagem = req.params.id;
+    const idPostagem = req.params.id; // ID da postagem
     const usuario_id = req.user.id; // ID do usuário logado
-  
+
     try {
+        // Verificar se a postagem existe
         const idForum = await Postagem.findAll({ where: { id_post: idPostagem } });
         if (idForum.length === 0) {
             throw new Error(`Postagem com id ${idPostagem} não encontrada`);
         }
-  
+
+        // Buscar a notificação do usuário logado para essa postagem
         const notificacao = await Notificacao.findOne({
             where: {
                 id_postagem: idPostagem,
                 usuario_id: usuario_id
             }
         });
-      
+        
         if (!notificacao) {
             throw new Error(`Notificação para o usuário ${usuario_id} e a postagem ${idPostagem} não encontrada`);
         }
-  
+
+        // Buscar o desafio relacionado à postagem
         const desafio = await Desafio.findOne({
             where: {
                 id_postagem: idPostagem,
                 usuario_desafiado: usuario_id
             }
         });
-  
+
         // Verificar se o desafio foi aceito ou negado
         if (desafio && (desafio.estado === 'aceito' || desafio.estado === 'negado')) {
+            // Se o estado for diferente de 'pendente', a notificação será excluída
             await Notificacao.destroy({
                 where: {
                     id_postagem: idPostagem,
@@ -66,7 +70,9 @@ router.get('/postagem/:id', async (req, res) => {
             });
         }
 
+        // Redirecionar para o tópico da postagem
         res.redirect('/forum/' + idForum[0].id_topico + '#' + idPostagem);
+
     } catch (error) {
         console.error('Erro ao redirecionar e verificar/destruir a notificação:', error.message);
         res.status(500).send('Erro ao redirecionar e verificar/destruir a notificação');
@@ -90,7 +96,7 @@ router.get('/:id', async (req, res) => {
         const topicos = await Topico.findAll(); // Adicione isso para garantir que topicos seja passado
 
         // Renderize a página com a variável topicos incluída
-        res.render('forum', { topico, postagens, usuarioAtual, topicos, usuarios, resposta, desafios });
+        res.render('forum', { topicos, postagens, usuarioAtual, topicos, usuarios, resposta, desafios });
     } catch (error) {
         console.error(error);
         res.status(500).send('Erro ao carregar o tópico');

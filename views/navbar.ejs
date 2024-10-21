@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Navbar</title>
+  <link rel="shortcut icon" class="h-12 w-14" type="image/png" href="/img/logobb.png">
+
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     .logo-default {
@@ -64,7 +66,9 @@
           <div class="relative">
             <button id="user-menu-btn" class="flex items-center focus:outline-none">
               <a href="forum" class="hover:text-black p-2 font-bold font-sans rounded">Fórum</a>
-              <a href="cadastroEvento" class="hover:text-black font-bold p-2 rounded font-sans">Cadastrar Eventos</a>
+              <% if (usuarioAtual.mestre == 1) { %>
+                <a href="cadastroEvento" class="hover:text-black font-bold p-2 rounded font-sans">Cadastrar Eventos</a>
+                <% } %>                
                 <div id="notificacao-desafios" class="flex items-center">
                   <!-- Contêiner com position relative para o ícone -->
                   <div class="relative">
