@@ -83,7 +83,7 @@ const notificacaoRoutes = require('./routes/notificacao');
 
 const apagarPostagem = require('./routes/apagarPostagem');
 app.use('/apagarPostagem', authenticationMiddleware, apagarPostagem);
-
+//ACABOU
 const apagarTopcico = require('./routes/apagarTopico');
 app.use('/apagarTopico', authenticationMiddleware, apagarTopcico);
 
