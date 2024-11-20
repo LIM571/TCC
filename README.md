@@ -32,7 +32,7 @@ Apesar de ter cumprido todas as funcionalidades propostas, acredito firmemente n
 > “Não existe tal coisa como um programa finalizado; sempre há algo mais a adicionar, corrigir ou melhorar.”  
 
 ### 📸 Foto da Banca  
-![Foto da Banca](#) <!-- Substitua # pelo caminho da imagem da banca -->
+![Foto da Banca](public/readme/BancaFoto.jpg) <!-- Substitua # pelo caminho da imagem da banca -->
 
 Caso queira acessar a parte escrita do meu trabalho, basta clicar [aqui](#) (substituir o link pelo real).  
 
