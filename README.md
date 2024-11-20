@@ -1,7 +1,6 @@
 # 🥊 **RamMuay**  
 
 ![Logo](/public/readme/RamMuaybanner.png) <!-- Substitua # pelo caminho do banner da sua logo -->
-![Logo](/public/readme/Capa.png) <!-- Substitua # pelo caminho do banner da sua logo -->
 
 Uma plataforma para a visibilidade de lutadores de Muay Thai.  
 
@@ -27,7 +26,7 @@ A RamMuay tem como objetivo ser uma central de apoio para lutadores de Muay Thai
 ## 📝 **Sobre o Projeto**  
 Este projeto é o meu Trabalho de Conclusão de Curso (TCC), e me sinto muito feliz em compartilhar esta versão da plataforma que foi submetida e aprovada pela banca.  
 
-![Capa do TCC](#) <!-- Substitua # pelo caminho da imagem da capa do TCC -->
+![Capa do TCC](public/readme/Capa.png) <!-- Substitua # pelo caminho da imagem da capa do TCC -->
 
 Apesar de ter cumprido todas as funcionalidades propostas, acredito firmemente na frase de Paul Leary:  
 > “Não existe tal coisa como um programa finalizado; sempre há algo mais a adicionar, corrigir ou melhorar.”  
