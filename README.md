@@ -54,43 +54,42 @@ A plataforma **RamMuay** foi desenvolvida utilizando tecnologias modernas e efic
 ![Arquitetura da Aplicação](public/readme/arquitetura.png) <!-- Substitua # pelo caminho da imagem da arquitetura -->
 
 ### **📜 Front-end**  
-1. **HTML (HyperText Markup Language)**:  
+1. 🌐 **HTML (HyperText Markup Language)**:  
    Utilizado para estruturar as telas que os usuários visualizam, permitindo a publicação de conteúdos como texto, imagens, vídeos e áudios na web.  
 
-2. **CSS (Cascading Style Sheets)**:  
+2. 🎨 **CSS (Cascading Style Sheets)**:  
    Aplicado para estilizar os elementos HTML, aprimorando a interface visual da plataforma. Além disso, foi utilizado o framework **Tailwind CSS**, que permite uma estilização rápida e eficiente por meio de classes pré-definidas.  
 
-3. **EJS (Embedded JavaScript Templates)**:  
+3. 📝 **EJS (Embedded JavaScript Templates)**:  
    Uma linguagem de template simples que possibilita a criação de páginas dinâmicas, gerando marcação HTML com JavaScript.  
 
 ### **🔧 Back-end**  
-1. **JavaScript**:  
+1. 🖥️ **JavaScript**:  
    Linguagem principal utilizada no desenvolvimento da aplicação, adicionando interatividade às funcionalidades.  
 
-2. **Node.js**:  
+2. ⚡ **Node.js**:  
    Um ambiente de execução JavaScript assíncrono orientado a eventos, projetado para construir aplicações escaláveis. Foi utilizado para estruturar toda a lógica da aplicação.  
 
-3. **Express.js**:  
+3. 🚏 **Express.js**:  
    Framework que simplifica a criação e o gerenciamento de rotas no back-end, permitindo a construção de código mais organizado e eficiente.  
 
-4. **Passport**:  
+4. 🔒 **Passport**:  
    Middleware de autenticação flexível e modular para validação de usuários cadastrados, garantindo segurança nos processos de login.  
 
-5. **Nodemailer**:  
+5. 📧 **Nodemailer**:  
    Ferramenta usada para envio de e-mails, responsável por validar lutadores mestres na plataforma.  
 
-6. **Formidable**:  
+6. 📂 **Formidable**:  
    Um módulo para análise de dados de formulário, especialmente útil para uploads de arquivos, como imagens de eventos ou perfis.  
 
 ### **🗄️ Banco de Dados**  
-1. **MySQL**:  
+1. 💾 **MySQL**:  
    Banco de dados relacional utilizado para armazenar as informações da plataforma, incluindo dados de usuários, eventos, desafios e postagens no fórum.  
 
-2. **Sequelize**:  
+2. 🔗 **Sequelize**:  
    ORM (Object-Relational Mapping) moderno que facilita a interação com o banco de dados MySQL, proporcionando uma manipulação de dados mais eficiente e organizada.  
 
 ---
-
 
 ## 📊 **Modelo da Aplicação**  
 Abaixo está uma ilustração que demonstra o funcionamento do modelo da aplicação:  
