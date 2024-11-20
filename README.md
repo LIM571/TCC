@@ -1,8 +1,7 @@
 # 🥊 **RamMuay**  
+**Uma plataforma para a visibilidade de lutadores de Muay Thai.**  
 
-![Logo](public/readme/bannerr.png) <!-- Substitua # pelo caminho do banner da sua logo -->
-
-Uma plataforma para a visibilidade de lutadores de Muay Thai.  
+![Logo](public/readme/bannerr.png) <!-- Substitua pelo caminho do banner da sua logo -->
 
 ---
 
@@ -26,20 +25,20 @@ A RamMuay tem como objetivo ser uma central de apoio para lutadores de Muay Thai
 ## 📝 **Sobre o Projeto**  
 Este projeto é o meu Trabalho de Conclusão de Curso (TCC), e me sinto muito feliz em compartilhar esta versão da plataforma que foi submetida e aprovada pela banca.  
 
-![Capa do TCC](public/readme/Capa.png) <!-- Substitua # pelo caminho da imagem da capa do TCC -->
+![Capa do TCC](public/readme/Capa.png) <!-- Substitua pelo caminho da imagem da capa do TCC -->
 
 Apesar de ter cumprido todas as funcionalidades propostas, acredito firmemente na frase de Paul Leary:  
 > “Não existe tal coisa como um programa finalizado; sempre há algo mais a adicionar, corrigir ou melhorar.”  
 
 ### 📸 Foto da Banca  
-![Foto da Banca](public/readme/BancaFoto.jpg) <!-- Substitua # pelo caminho da imagem da banca -->
+![Foto da Banca](public/readme/BancaFoto.jpg) <!-- Substitua pelo caminho da imagem da banca -->
 
 Caso queira acessar a parte escrita do meu trabalho, basta clicar [aqui](#) (substituir o link pelo real).  
 
 ---
 
 ## 🚀 **Funcionalidades Principais**  
-![Demonstração Funcionalidades](public/readme/card.png) <!-- Substitua # pelo caminho da imagem demonstrativa das funcionalidades -->
+![Demonstração Funcionalidades](public/readme/card.png) <!-- Substitua pelo caminho da imagem demonstrativa das funcionalidades -->
 
 - 📋 Fórum para discussões sobre Muay Thai.  
 - 🎴 Sistema de desafios entre lutadores.  
@@ -51,7 +50,7 @@ Caso queira acessar a parte escrita do meu trabalho, basta clicar [aqui](#) (sub
 ## 🏗️ **Arquitetura da Aplicação**  
 A plataforma **RamMuay** foi desenvolvida utilizando tecnologias modernas e eficazes, garantindo uma aplicação robusta e funcional. Abaixo estão as principais tecnologias empregadas na sua construção:
 
-![Arquitetura da Aplicação](public/readme/arquitetura.png) <!-- Substitua # pelo caminho da imagem da arquitetura -->
+![Arquitetura da Aplicação](public/readme/arquitetura.png) <!-- Substitua pelo caminho da imagem da arquitetura -->
 
 ### **📜 Front-end**  
 1. 🌐 **HTML (HyperText Markup Language)**:  
@@ -93,7 +92,7 @@ A plataforma **RamMuay** foi desenvolvida utilizando tecnologias modernas e efic
 
 ## 📊 **Modelo da Aplicação**  
 Abaixo está uma ilustração que demonstra o funcionamento do modelo da aplicação:  
-![Arquitetura da Aplicação](public/readme/aplicacao.png) <!-- Substitua # pelo caminho da imagem da arquitetura -->
+![Modelo da Aplicação](public/readme/aplicacao.png) <!-- Substitua pelo caminho da imagem da aplicação -->
 
 O modelo considera três tipos principais de usuários:  
 1. **Lutador (Usuário Comum):**  
@@ -111,7 +110,7 @@ O modelo considera três tipos principais de usuários:
 
 ## 📜 **Casos de Uso**  
 Os casos de uso principais da plataforma são ilustrados na imagem abaixo:  
-![Casos de Uso](public/readme/uso.png) <!-- Substitua # pelo caminho da imagem dos casos de uso -->
+![Casos de Uso](public/readme/uso.png) <!-- Substitua pelo caminho da imagem dos casos de uso -->
 
 1. **Lutador:**  
    - Visualizar eventos.  
@@ -127,7 +126,7 @@ Os casos de uso principais da plataforma são ilustrados na imagem abaixo:
 
 ## 📐 **Diagrama ER**  
 Abaixo está o diagrama de Entidade-Relacionamento (ER) que ilustra o banco de dados utilizado pela plataforma:  
-![Diagrama ER](#) <!-- Substitua # pelo caminho do diagrama ER -->
+![Diagrama ER](public/readme/ER.png) <!-- Substitua pelo caminho do diagrama ER -->
 
 As tabelas principais incluem:  
 - **Tb_Evento:** Armazena dados de eventos, como nome, descrição, preço de ingresso e local.  
