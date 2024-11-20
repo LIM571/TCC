@@ -14,6 +14,12 @@ A RamMuay tem como objetivo ser uma central de apoio para lutadores de Muay Thai
 - 🗂️ Facilitem o **cadastro e participação em eventos**, democratizando o acesso para atletas de todos os níveis.  
 - 💬 Forneçam um espaço de **interação e engajamento** por meio de fóruns e desafios entre lutadores.  
 
+## 📝 **Sobre o Projeto**  
+Este projeto é o meu Trabalho de Conclusão de Curso (TCC), e me sinto muito feliz em compartilhar esta versão da plataforma que foi submetida e aprovada. Apesar de ter cumprido todas as funcionalidades propostas, acredito firmemente na frase de Paul Leary:  
+> “Não existe tal coisa como um programa finalizado; sempre há algo mais a adicionar, corrigir ou melhorar.”  
+
+Caso queira acessar a parte escrita do meu trabalho, basta clicar [aqui](https://drive.google.com/file/d/1MxKSOUJzqdX-c_tBjyo6vi18CNW8gvBw/view?usp=sharing) 
+
 ## 🚀 **Funcionalidades Principais**  
 - 📋 Fórum para discussões sobre Muay Thai.  
 - 🎴 Sistema de desafios entre lutadores.  
@@ -31,4 +37,4 @@ O nome da plataforma é inspirado na tradicional dança ritual Ram Muay, realiza
 ## 🤝 **Contribuições**  
 Sinta-se à vontade para sugerir melhorias, relatar problemas ou contribuir com novas funcionalidades.  
 
-**Se Depernder de Nós Vamos Até o Fim!** 🥊🔥  
+**Vamos juntos fortalecer a comunidade do Muay Thai!** 🥊🔥  
