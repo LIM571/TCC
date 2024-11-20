@@ -1,6 +1,6 @@
 # 🥊 **RamMuay**  
 
-![Logo](/public/readme/RamMuay_banner.png) <!-- Substitua # pelo caminho do banner da sua logo -->
+![Logo](/public/readme/RamMuaybanner.png) <!-- Substitua # pelo caminho do banner da sua logo -->
 ![Logo](/public/readme/Capa.png) <!-- Substitua # pelo caminho do banner da sua logo -->
 
 Uma plataforma para a visibilidade de lutadores de Muay Thai.  
