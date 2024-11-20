@@ -39,7 +39,7 @@ Caso queira acessar a parte escrita do meu trabalho, basta clicar [aqui](#) (sub
 ---
 
 ## 🚀 **Funcionalidades Principais**  
-![Demonstração Funcionalidades](#) <!-- Substitua # pelo caminho da imagem demonstrativa das funcionalidades -->
+![Demonstração Funcionalidades](public/readme/card.png) <!-- Substitua # pelo caminho da imagem demonstrativa das funcionalidades -->
 
 - 📋 Fórum para discussões sobre Muay Thai.  
 - 🎴 Sistema de desafios entre lutadores.  
@@ -50,7 +50,7 @@ Caso queira acessar a parte escrita do meu trabalho, basta clicar [aqui](#) (sub
 
 ## 🏗️ **Arquitetura da Aplicação**  
 A plataforma RamMuay foi construída com a seguinte arquitetura:  
-![Arquitetura da Aplicação](#) <!-- Substitua # pelo caminho da imagem da arquitetura -->
+![Arquitetura da Aplicação](public/readme/aplicacao.png) <!-- Substitua # pelo caminho da imagem da arquitetura -->
 
 - **Front-end**:  
   - Cascading Style Sheets (CSS) em conjunto com o framework Tailwind CSS.  
@@ -62,7 +62,7 @@ A plataforma RamMuay foi construída com a seguinte arquitetura:
 
 ## 📊 **Modelo da Aplicação**  
 Abaixo está uma ilustração que demonstra o funcionamento do modelo da aplicação:  
-![Modelo da Aplicação](#) <!-- Substitua # pelo caminho da imagem do modelo da aplicação -->
+![Modelo da Aplicação](public/readme/arquitetura.png) <!-- Substitua # pelo caminho da imagem do modelo da aplicação -->
 
 O modelo considera três tipos principais de usuários:  
 1. **Lutador (Usuário Comum):**  
@@ -80,7 +80,7 @@ O modelo considera três tipos principais de usuários:
 
 ## 📜 **Casos de Uso**  
 Os casos de uso principais da plataforma são ilustrados na imagem abaixo:  
-![Casos de Uso](#) <!-- Substitua # pelo caminho da imagem dos casos de uso -->
+![Casos de Uso](public/readme/uso.png) <!-- Substitua # pelo caminho da imagem dos casos de uso -->
 
 1. **Lutador:**  
    - Visualizar eventos.  
@@ -124,4 +124,4 @@ O nome da plataforma é inspirado na tradicional dança ritual Ram Muay, realiza
 ## 🤝 **Contribuições**  
 Sinta-se à vontade para sugerir melhorias, relatar problemas ou contribuir com novas funcionalidades.  
 
-**Vamos juntos fortalecer a comunidade do Muay Thai!** 🥊🔥  
+**Se Depender de Nós Vamos Até o Fim** 🥊🔥  
